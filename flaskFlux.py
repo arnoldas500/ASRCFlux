@@ -50,7 +50,7 @@ def getCSV(params, dates):
     dfJson = df2.to_json()
     return dfJson
 
-def testCSV(params, dateStart, dateEnd):
+def testCSV(params, dates, dateStartList, dateEndList):
     #timeMin = params['time_min']                                                                                                                                                    
     #timeMax = params['time_max']                                                                                                                                                    
     #date = params['dates']
@@ -66,9 +66,23 @@ def testCSV(params, dateStart, dateEnd):
             yield curr
             curr += delta
     #ex date(2017, 10, 10)
-    for result in perdelta(datetime.date(dateStart), datetime.date(dateEnd), timedelta(days=1)):
-        print(result)
-        
+    dfList = []
+    #getting all of the selected csv files according to date and sotring them into a list
+    for curDate in perdelta(datetime.date(int(dateStartList[0]),int(dateStartList[1]),int(dateStartList[2])), datetime.date(int(dateEndList[0]), int(dateEndList[1]), int(dateEndList[2])+1), timedelta(days=1)):
+        #print(curDate)
+        #curDateSTR = datetime.datetime.strptime(dates, '%Y/%m/%d')
+        curDateSTR = curDate.strftime('%Y/%m/%d')
+        #print(curDateSTR)
+        #curDateInt = int(curDateSTR)
+        dateSlash = curDateSTR.replace("-","/")
+        dateStrp = curDateSTR.replace("/","")
+        dfList.append(pd.read_csv('/flux/' + dateSlash + '/' + dateStrp + '_FLUX_BURT_Flux_NYSMesonet.csv'))
+        #print(dfList)
+
+    #Combine a list of pandas dataframes to one pandas dataframe
+    dfFull = pd.concat(dfList)
+    print(dfFull.head())
+    '''
     #changinge format for directries
     datesStrp = dates.replace("/","")
     #20170909_FLUX_BURT_Flux_NYSMesonet.csv
@@ -81,14 +95,16 @@ def testCSV(params, dateStart, dateEnd):
     df = pd.read_csv('/flux/' + dates + '/' + datesStrp + '_FLUX_BURT_Flux_NYSMesonet.csv')
 
 #    print(df.head())                                                                                                                                                                
-#    print(df['CO2'])                                                                                                                                                                
+#    print(df['CO2'])                                                                          '''                                                                                      
     a = "arnold"
+    
     df2 = pd.DataFrame() #creating an empty dataframe                                                                                                                                
-    df2['datetime'] = pd.to_datetime(df['datetime'])
+    df2['datetime'] = pd.to_datetime(dfFull['datetime'])
     df2['justDate']= df2['datetime'].dt.date
     df2['justHour'] = df2['datetime'].dt.hour
-    df2['CO2']= df.loc[:,'CO2']
+    df2['CO2']= dfFull.loc[:,'CO2']
 
+    '''
     datesNew = params['dates']
     df2['days_from'] = df2['datetime'] - datesNew
     df2['intDay'] = df2.days_from.dt.days
@@ -98,14 +114,15 @@ def testCSV(params, dateStart, dateEnd):
     print(df2.tail())
     #df.set_index(['datetime'],inplace=True)                                                                                                                                         #[ [0.0.-0.7] ] day hour co2
     #dfJson = df.loc[:,'justDate','justHour','CO2'].to_json()
-
+    '''
     df2.drop('datetime', axis=1, inplace=True)
-    df2.drop('intDay', axis=1, inplace=True)
-    df2.drop('days_from', axis=1, inplace=True)
+    #df2.drop('intDay', axis=1, inplace=True)
+    #df2.drop('days_from', axis=1, inplace=True)
     #writing to csv file
     csvData = df2.to_csv(header=False, index=False)
     
     #dfJson = df2.to_json()
+    
     return csvData
 
     
@@ -114,15 +131,17 @@ def testCSV(params, dateStart, dateEnd):
 def plot():
     # organize the request params                                                                    
     params = {}
-    dates = request.args.get('dates',type=str)
+    datesOld = request.args.get('dates',type=str)
     
     multiDict = request.args.getlist('dates')
     print(multiDict)
     #multiDictF = multiDict.replace("/","")
     dateStart = multiDict[0]
     dateEnd = multiDict[1]
-
-dfStart = pd.DataFrame() #creating an empty dataframe
+    dateStartList = dateStart.split("/")
+    dateEndList = dateEnd.split("/")
+    '''
+    dfStart = pd.DataFrame() #creating an empty dataframe
                                                                                         \
                                                                                          
     dfStart['datetime'] = pd.to_datetime(df['datetime'])
@@ -145,8 +164,9 @@ dfStart = pd.DataFrame() #creating an empty dataframe
     
     params['dates'] = datetime.datetime.strptime(dates, '%Y/%m/%d')
     #response = testCSV(params, dates)
-    response = testCSV(multiDict, dateStartR, dateEndR)
-
+    '''
+    #response = testCSV(multiDict, dateStartR, dateEndR)
+    response = testCSV(multiDict, datesOld, dateStartList, dateEndList)
 
 
 
