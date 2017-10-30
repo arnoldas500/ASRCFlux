@@ -102,6 +102,7 @@ def testCSV(params, dates, dateStartList, dateEndList):
     df2['datetime'] = pd.to_datetime(dfFull['datetime'])
     df2['justDate']= df2['datetime'].dt.date
     df2['justHour'] = df2['datetime'].dt.hour
+    df2['justHour'] += df2['datetime'].dt.minute / 60 
     df2['CO2']= dfFull.loc[:,'CO2']
 
     '''
@@ -119,8 +120,8 @@ def testCSV(params, dates, dateStartList, dateEndList):
     #df2.drop('intDay', axis=1, inplace=True)
     #df2.drop('days_from', axis=1, inplace=True)
     #writing to csv file
-    csvData = df2.to_csv(header=False, index=False)
-    
+    #csvData = df2.loc[df2['justHour']>16].to_csv(header=False, index=False)
+    csvData = df2.to_csv(header=False, index=False) 
     #dfJson = df2.to_json()
     
     return csvData
