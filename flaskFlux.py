@@ -50,7 +50,7 @@ def getCSV(params, dates):
     dfJson = df2.to_json()
     return dfJson
 
-def testCSV(params, dates, dateStartList, dateEndList):
+def testCSV(params, dates, dateStartList, dateEndList, select):
     #timeMin = params['time_min']                                                                                                                                                    
     #timeMax = params['time_max']                                                                                                                                                    
     #date = params['dates']
@@ -76,7 +76,7 @@ def testCSV(params, dates, dateStartList, dateEndList):
         #curDateInt = int(curDateSTR)
         dateSlash = curDateSTR.replace("-","/")
         dateStrp = curDateSTR.replace("/","")
-        dfList.append(pd.read_csv('/flux/' + dateSlash + '/' + dateStrp + '_FLUX_BURT_Flux_NYSMesonet.csv'))
+        dfList.append(pd.read_csv('/flux/' + dateSlash + '/' + dateStrp + '_FLUX_'+ select +'_Flux_NYSMesonet.csv'))
         #print(dfList)
 
     #Combine a list of pandas dataframes to one pandas dataframe
@@ -130,7 +130,9 @@ def testCSV(params, dates, dateStartList, dateEndList):
 
 @app.route('/plot', methods=['GET'])
 def plot():
-    # organize the request params                                                                    
+    # organize the request params
+    #select = request.form.get('site')
+    select = request.args.get('site',type=str)
     params = {}
     datesOld = request.args.get('dates',type=str)
     
@@ -148,52 +150,36 @@ def plot():
     dfStart['datetime'] = pd.to_datetime(df['datetime'])
     dfStart['justDate']= dfStart['datetime'].dt.date
     dfStart['justHour'] = dfStart['datetime'].dt.hour
-
-
-
     dateStartR = int(dateStart.replace("/",""))
     print(dateStartR)
     dateEndR = int(dateEnd.replace("/",""))
-
-    
+   
     #datesFull = multiDict.popitem()
     print(type(request))
     #print(datesFull)
     datesF = dates.replace("/", "")
     print(datesF)
-    
-    
+ 
     params['dates'] = datetime.datetime.strptime(dates, '%Y/%m/%d')
     #response = testCSV(params, dates)
     '''
     #response = testCSV(multiDict, dateStartR, dateEndR)
-    response = testCSV(multiDict, datesOld, dateStartList, dateEndList)
-
-
-
-
+    response = testCSV(multiDict, datesOld, dateStartList, dateEndList, select)
     
     #time_min_str = request.args.get('time_min', type=str)
     #params['time_min'] = datetime.datetime.strptime(time_min_str, '%Y-%m-%dT%H:%M:00.000Z')
     #time_max_str = request.args.get('time_max', type=str)
     #params['time_max'] = datetime.datetime.strptime(time_max_str, '%Y-%m-%dT%H:%M:00.000Z')
-
-    #params['barbs'] = True if 'barbs' in request.args.keys() else False
-    #lidar_ids_str = request.args.get('lidar_id', type=str)
-    #scan_ids_str = request.args.get('scan_id', type=str)
-    #params['lidar_ids'] = list(map(int, lidar_ids_str.split(',')))
-    #params['scan_ids'] = list(map(int, scan_ids_str.split(',')))
-    # ax = getPlot(request.args)                                                                     
-    # canvas = FigureCanvas(ax.get_figure())                                                         
-    # fig = getPlot(params)                                                                          
-    # # fig = getPlot(request.args)                                                                  
-    # canvas = FigureCanvas(fig)                                                                     
-    # # png_output = io.StringIO()                                                                   
-    # png_output = BytesIO()                                                                         
-    #sending the actual dic to python
-    #response = getCSV(params)
-    # img = getPlot(request.args)                                                                    
-    # response = make_response(img.getvalue())                                                       
-    #for matplotlib
     # response.headers['Content-Type'] = 'image/png'
+    print(str(select))
     return response
+
+'''
+@app.route("/test" , methods=['GET', 'POST'])
+def test():
+    select = request.form.get('site')
+    return(str(select)) # just to see what select is
+
+if __name__=='__main__':
+    app.run(debug=True)
+'''
