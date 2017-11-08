@@ -172,7 +172,7 @@
 	  
 	  <dt>
 	    <a href="#">
-	      <span class="hida">Select</span>    
+	      <span class="hida">Select Sites</span>    
 	      <p class="multiSel"></p>  
 	    </a>
 	  </dt>
@@ -276,6 +276,9 @@
 							</pre>
 
 	     -->
+	<!-- <a id="append">Add DIV</a> -->
+	<div id="parent" ></div>
+
 	
 	<script type="text/javascript">
 	  Highcharts.setOptions({ global: { useUTC: false } });
@@ -376,6 +379,9 @@
 	  //var sitesStr = sites.options[sites.selectedIndex].text;
 
 	  //console.log(sitesStr);
+
+	  var div = document.createElement('div')
+	  
 	  //for loop for graph function (not wroking GRRR)
 	  for (var item of objectHTMLCollection){
 	  //test = item.innerText.split(",");
@@ -383,6 +389,18 @@
 	  for(var i=0;i<len;i++){
 			 element = item.childNodes[i].innerText;
 			 console.log(element.replace(",", "") + " test " +len);
+			 dateURL = base_url + 'plot?dates=' + curDateF + '&dates=' + lastDate + '&site=' + element.replace(",", "");
+//			 document.body.appendChild(div);
+			 
+
+
+
+    $('#parent').append('<div id="first'+i+'"></div>');
+
+			 
+			 id = "first"+i;
+			 console.log(id);
+			 graphing(dateURL, id);
 			 }
 			 }
 
@@ -393,7 +411,7 @@
 			 //          console.log(key.id);
 			 //	  }
 			 
-			 dateURL = base_url + 'plot?dates=' + curDateF + '&dates=' + lastDate + '&site=' + 'BELL';
+			 //dateURL = base_url + 'plot?dates=' + curDateF + '&dates=' + lastDate + '&site=' + 'BELL';
 
 			 //curDate = datepicker[0].value
 			 //         date_options = {dateFormat: 'yy/mm/dd'};
@@ -420,14 +438,14 @@
 
 			 
 			 //heatMap();
-			 graphing(dateURL)
+			 //graphing(dateURL)
 			 
 
 			 
 			 }
 			 
 			 //function for making multiple graphs
-			 function graphing(dateURL){
+			 function graphing(dateURL,id){
 			 
 			 $.ajax({
 			 method: "GET",
@@ -435,13 +453,13 @@
 			 }).done(function( response ) {
 			 $('#csv').text(response);
 			 //response has json code
-			 heatMap(response);
+			 heatMap(response,id);
 			 })
 			 .fail(function(jqXHR){
 			 if(jqXHR.status==500 || jqXHR.status==0){
 			 $('#errorDiv').text("NOTE: You selected a date thats out of range! Please try again!").delay(2000).fadeOut();
 			 // internal server error or internet connection broke
-			 heatMap(response);
+			 heatMap(response,id);
 			 }
 
 			 });
@@ -449,10 +467,10 @@
 			 };
 
 
-			 function heatMap(response){
+			 function heatMap(response,id){
 			 
 			 //heatmap stuff below
-			 Highcharts.chart('container', {
+			 Highcharts.chart(id, {
 
 			 data: {
 			 csv: document.getElementById('csv').innerHTML
