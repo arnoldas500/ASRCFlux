@@ -389,7 +389,8 @@
 	  for(var i=0;i<len;i++){
 			 element = item.childNodes[i].innerText;
 			 console.log(element.replace(",", "") + " test " +len);
-			 dateURL = base_url + 'plot?dates=' + curDateF + '&dates=' + lastDate + '&site=' + element.replace(",", "");
+			 site = element.replace(",", "");
+			 dateURL = base_url + 'plot?dates=' + curDateF + '&dates=' + lastDate + '&site=' + site;
 //			 document.body.appendChild(div);
 			 
 
@@ -400,7 +401,7 @@
 			 
 			 id = "first"+i;
 			 console.log(id);
-			 graphing(dateURL, id);
+			 graphing(dateURL, id, site);
 			 }
 			 }
 
@@ -445,7 +446,14 @@
 			 }
 			 
 			 //function for making multiple graphs
-			 function graphing(dateURL,id){
+			 function graphing(dateURL, id, site){
+
+
+	
+
+
+
+
 			 
 			 $.ajax({
 			 method: "GET",
@@ -453,13 +461,14 @@
 			 }).done(function( response ) {
 			 $('#csv').text(response);
 			 //response has json code
-			 heatMap(response,id);
+			 heatMap(response, id, site);
 			 })
 			 .fail(function(jqXHR){
 			 if(jqXHR.status==500 || jqXHR.status==0){
-			 $('#errorDiv').text("NOTE: You selected a date thats out of range! Please try again!").delay(2000).fadeOut();
+			 $('#errorDiv').text("DATE OUT OF RANGE!!!").delay(2000).fadeOut();
 			 // internal server error or internet connection broke
-			 heatMap(response,id);
+			 alert("NOTE: You selected a date thats out of range for site: " + site+"! Please try again!");
+			 heatMap(response, id, site);
 			 }
 
 			 });
@@ -467,7 +476,7 @@
 			 };
 
 
-			 function heatMap(response,id){
+			 function heatMap(response, id, site){
 			 
 			 //heatmap stuff below
 			 Highcharts.chart(id, {
@@ -488,13 +497,13 @@
 			 },
 
 			 title: {
-			 text: 'Highcharts heat map for flux',
+			 text: 'Highcharts heat map for flux site '+site,
 			 align: 'left',
 			 x: 40
 			 },
 
 			 subtitle: {
-			 text: 'CO2  variation by day and half hour for the selected date range above',
+			 text: 'CO2  variation by day and half hour for '+ site + ' on selected date range above',
 			 align: 'left',
 			 x: 40
 			 },
