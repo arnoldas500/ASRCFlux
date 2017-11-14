@@ -26,6 +26,9 @@ def getCSV(params, dates):
     date = params['dates']
     datesStrp = dates.replace("/","")
     #20170909_FLUX_BURT_Flux_NYSMesonet.csv
+    
+
+    
     print('/flux/' + dates +'/' +datesStrp + '_FLUX_BURT_Flux_NYSMesonet.csv')
     df = pd.read_csv('/flux/' + dates + '/' + datesStrp + '_FLUX_BURT_Flux_NYSMesonet.csv')
 
@@ -59,6 +62,9 @@ def testCSV(params, dates, dateStartList, dateEndList, select):
     print(params['dates'])
     print("*********************")
     '''
+
+    fileExists = False
+    
     #getting range of dates
     def perdelta(start, end, delta):
         curr = start
@@ -68,17 +74,26 @@ def testCSV(params, dates, dateStartList, dateEndList, select):
     #ex date(2017, 10, 10)
     dfList = []
     #getting all of the selected csv files according to date and sotring them into a list
+    
     for curDate in perdelta(datetime.date(int(dateStartList[0]),int(dateStartList[1]),int(dateStartList[2])), datetime.date(int(dateEndList[0]), int(dateEndList[1]), int(dateEndList[2])+1), timedelta(days=1)):
-        #print(curDate)
-        #curDateSTR = datetime.datetime.strptime(dates, '%Y/%m/%d')
-        curDateSTR = curDate.strftime('%Y/%m/%d')
-        #print(curDateSTR)
-        #curDateInt = int(curDateSTR)
-        dateSlash = curDateSTR.replace("-","/")
-        dateStrp = curDateSTR.replace("/","")
-        dfList.append(pd.read_csv('/flux/' + dateSlash + '/' + dateStrp + '_FLUX_'+ select +'_Flux_NYSMesonet.csv'))
-        #print(dfList)
+        try:
+            #print(curDate)
+            #curDateSTR = datetime.datetime.strptime(dates, '%Y/%m/%d')
+            curDateSTR = curDate.strftime('%Y/%m/%d')
+            #print(curDateSTR)
+            #curDateInt = int(curDateSTR)
+            dateSlash = curDateSTR.replace("-","/")
+            dateStrp = curDateSTR.replace("/","")
+            dfList.append(pd.read_csv('/flux/' + dateSlash + '/' + dateStrp + '_FLUX_'+ select +'_Flux_NYSMesonet.csv'))
+            #print(dfList)
+            fileExists = True
+            
+        except FileNotFoundError as e:
+            print(e)
 
+    if(not fileExists):
+        raise FileNotFoundError("no data found at all!!!")
+    
     #Combine a list of pandas dataframes to one pandas dataframe
     dfFull = pd.concat(dfList)
     print(dfFull.head())
