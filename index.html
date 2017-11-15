@@ -13,6 +13,7 @@
 	<script src="https://code.highcharts.com/modules/data.js"></script>
 	<script src="https://code.highcharts.com/modules/boost-canvas.js"></script>
 	<script src="https://code.highcharts.com/modules/boost.js"></script>
+	<script src="https://d3js.org/d3.v4.min.js"></script>
 
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.js"></script>
@@ -868,7 +869,7 @@
 			     
 			     id = "first"+k;
 			     console.log(id);
-			     graphing(dateURL, id, site);
+			     graphing(dateURL, id, site, par);
 			     k+=1
 			 }
 		     }
@@ -924,37 +925,56 @@
 	 }
 	 
 	 //function for making multiple graphs
-	 function graphing(dateURL, id, site){
+	 function graphing(dateURL, id, site, par){
 
-
-	     
-
-
-
-
-	     
 	     $.ajax({
 		 method: "GET",
 		 url: dateURL,
 	     }).done(function( response ) {
-		 $('#csv').text(response);
+
+		 getMaxMin(dateURL, response, id, site, par)
+		 
+		 
+		 //$('#csv').text(response);
 		 //response has json code
-		 heatMap(response, id, site);
+		 //heatMap(response, id, site, par);
 	     })
 	      .fail(function(jqXHR){
 		  if(jqXHR.status==500 || jqXHR.status==0){
 		      $('#errorDiv').text("DATE OUT OF RANGE!!!").delay(2000).fadeOut();
 		      // internal server error or internet connection broke
 		      alert("NOTE: You selected a date thats out of range for site: " + site+"! Please try again!");
-		      heatMap(response, id, site);
+		      //heatMap(response, id, site, par);
 		  }
 
 	      });
 	     
 	 };
 
+	 function getMaxMin(dateURL, response, id, site, par){
+	     //response = document.getElementById('csv').innerHTML
+	     d3.csv(dateURL, function (data) {
+		 console.log(data)
 
-	 function heatMap(response, id, site){
+		 data.forEach(function(d) {
+		     d.Temperature = +d.Temperature;
+		 });
+
+		 var max = d3.max(data, function(d) { return d.Temperature; });
+		 console.log("maxNew is "+ max)
+
+		 var min = d3.min(data, function(d) { return d.Temperature; });
+		 console.log("minNew is "+ min)
+
+		 $('#csv').text(response);
+		 //response has json code
+		 heatMap(response, id, site, par, max, min);
+	     })
+	 }
+	 
+	 
+	 
+	 function heatMap(response, id, site, par, max, min){
 	     
 	     //heatmap stuff below
 	     Highcharts.chart(id, {
@@ -975,13 +995,13 @@
 		 },
 
 		 title: {
-		     text: 'Highcharts heat map for flux site '+site,
+		     text: 'Highcharts heat map for site '+site+' showing '+par+' data',
 		     align: 'left',
 		     x: 40
 		 },
 
 		 subtitle: {
-		     text: 'CO2  variation by day and half hour for '+ site + ' on selected date range above',
+		     text: par+'  variation by day and half hour for '+ site + ' on selected date range above',
 		     align: 'left',
 		     x: 40
 		 },
@@ -1032,12 +1052,12 @@
 			 [0.8, '#c4463a'],
 			 [1, '#c4463a']
 		     ],
-		     min: 350,
-		     max: 550,
-		     startOnTick: false,
-		     endOnTick: false, //cahnged from false false
+		     min: min,//Math.min('{value}'),
+		     max: max,//Math.max('{value}'),
+		     startOnTick: true,
+		     endOnTick: true, //cahnged from false false
 		     labels: {
-			 format: '{value} φ'
+			 format: '{value} '
 		     }
 		 },
 
@@ -1051,11 +1071,11 @@
 		     rowsize: 0.5,
 		     //find out what point is below ex point.x
 		     tooltip: {
-			 headerFormat: 'Flux (CO2)<br/>',
+			 headerFormat: par+' Data<br/>',
 			 //day month, year then time in 24 hours then temp in deg C
-			 pointFormat: '{point.x:%e %b, %Y} {point.y}:00: <b>{point.value} φ</b>'
+			 pointFormat: '{point.x:%e %b, %Y} {point.y}:00: <b>{point.value} </b>'
 		     },
-		     turboThreshold: Number.MAX_VALUE // #3404, remove after 4.0.5 release
+		     turboThreshold: 0//Number.MAX_VALUE // #3404, remove after 4.0.5 release
 		 }]
 
 		 // var json = {};   
@@ -1084,9 +1104,11 @@
 		 n: 0 auto"></div>
 
 
-	<!-- Source: http://vikjavev.no/ver/highcharts-demos/heatmap.csv.php?year=2013 -->
+	<!-- Source: http://vikjavev.no/ver/highcharts-demos/heatmap.csv.php?year=2013
+	     Date,Time,Temperature
+	-->
 	<pre id="csv" style="display: none">
-	  Date,Time,Temperature
+	 
 	  
 	  
 	</pre>
