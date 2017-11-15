@@ -53,7 +53,7 @@ def getCSV(params, dates):
     dfJson = df2.to_json()
     return dfJson
 
-def testCSV(params, dates, dateStartList, dateEndList, select):
+def testCSV(params, dates, dateStartList, dateEndList, select, par):
     #timeMin = params['time_min']                                                                                                                                                    
     #timeMax = params['time_max']                                                                                                                                                    
     #date = params['dates']
@@ -118,7 +118,8 @@ def testCSV(params, dates, dateStartList, dateEndList, select):
     df2['justDate']= df2['datetime'].dt.date
     df2['justHour'] = df2['datetime'].dt.hour
     df2['justHour'] += df2['datetime'].dt.minute / 60 
-    df2['CO2']= dfFull.loc[:,'CO2']
+    #df2['CO2']= dfFull.loc[:,'CO2']
+    df2[str(par)] = dfFull.loc[:,str(par)]
 
     '''
     datesNew = params['dates']
@@ -131,12 +132,15 @@ def testCSV(params, dates, dateStartList, dateEndList, select):
     #df.set_index(['datetime'],inplace=True)                                                                                                                                         #[ [0.0.-0.7] ] day hour co2
     #dfJson = df.loc[:,'justDate','justHour','CO2'].to_json()
     '''
+    
     df2.drop('datetime', axis=1, inplace=True)
     #df2.drop('intDay', axis=1, inplace=True)
     #df2.drop('days_from', axis=1, inplace=True)
     #writing to csv file
     #csvData = df2.loc[df2['justHour']>16].to_csv(header=False, index=False)
-    csvData = df2.to_csv(header=False, index=False) 
+
+    df2.rename(columns={'justDate': 'Date', 'justHour': 'Time', str(par):'Temperature'}, inplace=True)
+    csvData = df2.to_csv(header=True, index=False) 
     #dfJson = df2.to_json()
     
     return csvData
@@ -147,6 +151,7 @@ def testCSV(params, dates, dateStartList, dateEndList, select):
 def plot():
     # organize the request params
     #select = request.form.get('site')
+    par = request.args.get('par',type=str)
     select = request.args.get('site',type=str)
     params = {}
     datesOld = request.args.get('dates',type=str)
@@ -179,7 +184,7 @@ def plot():
     #response = testCSV(params, dates)
     '''
     #response = testCSV(multiDict, dateStartR, dateEndR)
-    response = testCSV(multiDict, datesOld, dateStartList, dateEndList, select)
+    response = testCSV(multiDict, datesOld, dateStartList, dateEndList, select, par)
     
     #time_min_str = request.args.get('time_min', type=str)
     #params['time_min'] = datetime.datetime.strptime(time_min_str, '%Y-%m-%dT%H:%M:00.000Z')
@@ -187,6 +192,7 @@ def plot():
     #params['time_max'] = datetime.datetime.strptime(time_max_str, '%Y-%m-%dT%H:%M:00.000Z')
     # response.headers['Content-Type'] = 'image/png'
     print(str(select))
+    print(str(par))
     return response
 
 '''
