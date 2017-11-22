@@ -22,10 +22,18 @@
 	<script src="https://code.highcharts.com/modules/boost.js"></script>
 	<script src="https://d3js.org/d3.v4.min.js"></script>
 
+	<!-- bootstrap for new dropdown -->
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css">
+
+	<!-- bootstrap for new date range -->
+	<script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+	
+	<!-- Include Date Range Picker -->
+	<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
 
 	<!-- 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.js"></script>
@@ -55,7 +63,7 @@
 
 	 body {
 	     font: normal 14px/100% "Andale Mono", AndaleMono, monospace;
-	     color: #fff;
+	     
 	     /*
 		padding: 50px;
 		width: 300px;
@@ -169,6 +177,7 @@
 	     text-align: center;
 	     color: #fff;
 	     font-weight: bold;
+	     
 	 }
 	 
 	 
@@ -189,9 +198,15 @@
 		<!--	<input type="text" class="date end">    -->
 		<input type="checkbox" name="select-all" id="select-all" />Clear Sites
 
+		<br>
+		<!-- new date range -->
+		<input type="text" id="newDateRange" name="daterange">
+		<br>
 
-		
-
+		<script>
+		 $('input[name="daterange"]').daterangepicker();
+		 
+		</script>
 		
 
 		<dl class="dropdown" id="d1" > 
@@ -853,6 +868,9 @@
 	     var base_url = 'http://appsvr.asrc.cestm.albany.edu:9093/';
 	     var datepicker = $('#datepicker');
 	     var datepicker2 = $('#datepicker2');
+
+	     
+	     
 	     //var sites = $('#sites');
 	     //var sites = document.getElementById('sites');
 	     //var sitesStr = sites.options[sites.selectedIndex].text;
@@ -1026,10 +1044,23 @@
 	     //dropdown 2 end
 
 	     function sendDate(){
-		 minDate = datepicker[0].value;
-		 curDateF = datepicker[0].value;
-		 lastDate = datepicker2[0].value;
-		 maxDate = datepicker2[0].value;
+		 /* minDate = datepicker[0].value;
+		    curDateF = datepicker[0].value;
+		    lastDate = datepicker2[0].value;
+		    maxDate = datepicker2[0].value;
+		    console.log(minDate);
+		    console.log(curDateF);
+		    console.log(lastDate);
+		    console.log(minDate);*/
+
+		 var datepicker = $('#newDateRange').data('daterangepicker');
+		 //var datepicker2 = $('#datepicker2');
+		 
+		 curDateF = datepicker.startDate.format('YYYY/MM/DD');
+		 //curDateF = datepicker[0].value;
+		 lastDate = datepicker.endDate.format('YYYY/MM/DD');
+		 //maxDate = datepicker2[0].value;
+		 
 		 //var sites = document.getElementById('ul_top_hypers');
 		 //var sitesStr = sites.options[sites.selectedIndex].text;
 		 //for the sites
@@ -1069,7 +1100,7 @@
 		     for(var par of $("#parsNew").val()){
 			 
 			 dateURL = base_url + 'plot?dates=' + curDateF + '&dates=' + lastDate + '&site=' + site + '&par='+par;
-			
+			 
 			 $('#parent').append('<div id="first'+k+'"></div>');
 
 			 
@@ -1080,86 +1111,86 @@
 		     }
 		 }
 		 
-	     
-	     //for loop for graph function
-	     
-	     /* for (var item of objectHTMLCollection){
-		//test = item.innerText.split(",");
-		len = item.childNodes.length;
-		for(var i=0;i<len;i++){
-		element = item.childNodes[i].innerText;
-		console.log(element.replace(",", "") + " test " +len);
-		site = element.replace(",", "");
-		dateURL = base_url + 'plot?dates=' + curDateF + '&dates=' + lastDate + '&site=' + site;
-		//			 document.body.appendChild(div);
-		
-		for(var item2 of objectHTMLCollection2){
-		len2 = item2.childNodes.length;
-		for(var j=0;j<len2;j++){
-		element2 = item2.childNodes[j].innerText;
-		console.log(element2.replace(",", "") + " test " +len2);
-		par = element2.replace(",", "");
-		dateURL = base_url + 'plot?dates=' + curDateF + '&dates=' + lastDate + '&site=' + site + '&par='+par;
-		//			 document.body.appendChild(div);
+		 
+		 //for loop for graph function
+		 
+		 /* for (var item of objectHTMLCollection){
+		    //test = item.innerText.split(",");
+		    len = item.childNodes.length;
+		    for(var i=0;i<len;i++){
+		    element = item.childNodes[i].innerText;
+		    console.log(element.replace(",", "") + " test " +len);
+		    site = element.replace(",", "");
+		    dateURL = base_url + 'plot?dates=' + curDateF + '&dates=' + lastDate + '&site=' + site;
+		    //			 document.body.appendChild(div);
+		    
+		    for(var item2 of objectHTMLCollection2){
+		    len2 = item2.childNodes.length;
+		    for(var j=0;j<len2;j++){
+		    element2 = item2.childNodes[j].innerText;
+		    console.log(element2.replace(",", "") + " test " +len2);
+		    par = element2.replace(",", "");
+		    dateURL = base_url + 'plot?dates=' + curDateF + '&dates=' + lastDate + '&site=' + site + '&par='+par;
+		    //			 document.body.appendChild(div);
 
-		$('#parent').append('<div id="first'+k+'"></div>');
+		    $('#parent').append('<div id="first'+k+'"></div>');
 
-		
-		id = "first"+k;
-		console.log(id);
-		graphing(dateURL, id, site, par);
-		k+=1
-		}
-		}
-		
+		    
+		    id = "first"+k;
+		    console.log(id);
+		    graphing(dateURL, id, site, par);
+		    k+=1
+		    }
+		    }
+		    
 
-		//$('#parent').append('<div id="first'+i+'"></div>');
+		    //$('#parent').append('<div id="first'+i+'"></div>');
 
-		
-		//id = "first"+i;
-		//console.log(id);
-		//graphing(dateURL, id, site);
-		}
-		}*/
+		    
+		    //id = "first"+i;
+		    //console.log(id);
+		    //graphing(dateURL, id, site);
+		    }
+		    }*/
 
-	     
-	     
+		 
+		 
 
-	     //	  Array.prototype.slice.call(document.getElementsByClassName("multiSel")).forEach(function (key)) {
-	     //          console.log(key.id);
-	     //	  }
-	     
-	     //dateURL = base_url + 'plot?dates=' + curDateF + '&dates=' + lastDate + '&site=' + 'BELL';
+		 //	  Array.prototype.slice.call(document.getElementsByClassName("multiSel")).forEach(function (key)) {
+		 //          console.log(key.id);
+		 //	  }
+		 
+		 //dateURL = base_url + 'plot?dates=' + curDateF + '&dates=' + lastDate + '&site=' + 'BELL';
 
-	     //curDate = datepicker[0].value
-	     //         date_options = {dateFormat: 'yy/mm/dd'};
-	     splitDate = curDateF.split("/");
-	     splitDateMax = maxDate.split("/");
-	     
-	     minYYStr = splitDate[0];
-	     minMMStr = splitDate[1];
-	     minDDStr = splitDate[2];
+		 //curDate = datepicker[0].value
+		 //         date_options = {dateFormat: 'yy/mm/dd'};
+		 /* splitDate = curDateF.split("/");
+		    splitDateMax = maxDate.split("/");
+		    
+		    minYYStr = splitDate[0];
+		    minMMStr = splitDate[1];
+		    minDDStr = splitDate[2];
 
-	     minYY = parseInt(minYYStr)
-	     minMM = parseInt(minMMStr)
-	     minDD = parseInt(minDDStr)
+		    minYY = parseInt(minYYStr)
+		    minMM = parseInt(minMMStr)
+		    minDD = parseInt(minDDStr)
 
-	     maxYYStr = splitDateMax[0];
-	     maxMMStr = splitDateMax[1];
-	     maxDDStr = splitDateMax[2];
+		    maxYYStr = splitDateMax[0];
+		    maxMMStr = splitDateMax[1];
+		    maxDDStr = splitDateMax[2];
 
-	     maxYY = parseInt(maxYYStr)
-	     maxMM = parseInt(maxMMStr)
-	     maxDD = parseInt(maxDDStr)
+		    maxYY = parseInt(maxYYStr)
+		    maxMM = parseInt(maxMMStr)
+		    maxDD = parseInt(maxDDStr)*/
 
-	     
+		 
 
-	     
-	     //heatMap();
-	     //graphing(dateURL)
-	     
+		 
+		 //heatMap();
+		 //graphing(dateURL)
+		 
 
-	     
+		 
 	     }
 	     
 	     //function for making multiple graphs
@@ -1213,6 +1244,12 @@
 	     
 	     
 	     function heatMap(response, id, site, par, max, min){
+		 var datepicker = $('#newDateRange').data('daterangepicker');
+		 //var datepicker2 = $('#datepicker2');
+		 
+		 curDateF = datepicker.startDate.toDate();
+		 //curDateF = datepicker[0].value;
+		 lastDate = datepicker.endDate.toDate();
 		 
 		 //heatmap stuff below
 		 Highcharts.chart(id, {
@@ -1250,8 +1287,13 @@
 			 type: 'datetime',
 			 
 			 //   min: Date.UTC(2017, 09, 01),
-			 min: (new Date(minYY, minMM-1, minDD)).getTime(),
-			 max: (new Date(maxYY, maxMM-1, maxDD)).getTime(),
+			 /* min: (new Date(minYY, minMM-1, minDD)).getTime(),
+			    max: (new Date(maxYY, maxMM-1, maxDD)).getTime(),*/
+
+			 min: curDateF.getTime(),
+			 max: lastDate.getTime(),
+
+			 
 			 
 			 labels: {
 			     align: 'center',
