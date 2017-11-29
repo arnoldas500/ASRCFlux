@@ -232,7 +232,30 @@
 		 $('input[name="daterange"]').daterangepicker();
 		 
 		</script>
-		
+
+		<!-- optione the plugin: -->
+		<script type="text/javascript">
+		 $(document).ready(function(event) {
+		     $('#parsNew').multiselect({
+			 includeSelectAllOption: true,
+			 selectAllValue: 'select-all-value'
+		     });
+		     $('#clearNew').click(function(){
+			 console.log("here")
+			 /* $("button.multiselect").multiselect("deselectAll", false).multiselect('updateButtonText');*/
+			 $("#sitesNew").multiselect("deselectAll", false).multiselect('updateButtonText');
+			 $("#parsNew").multiselect("deselectAll", false).multiselect('updateButtonText');
+			 $('#parent').empty();
+		     });
+		 });
+
+		 
+		 
+		</Script>
+
+		<br>
+		<button>Filter by Parameters</button>
+		<button id="clearNew" type="button" onclick="clear();">Clear</button>
 		<!-- 
 		     <dl class="dropdown" id="d1" > 
 		     
@@ -495,29 +518,7 @@
 		    
 
 		</select>
-		<!-- optione the plugin: -->
-		<script type="text/javascript">
-		 $(document).ready(function(event) {
-		     $('#parsNew').multiselect({
-			 includeSelectAllOption: true,
-			 selectAllValue: 'select-all-value'
-		     });
-		     $('#clearNew').click(function(){
-			 console.log("here")
-			 /* $("button.multiselect").multiselect("deselectAll", false).multiselect('updateButtonText');*/
-			 $("#sitesNew").multiselect("deselectAll", false).multiselect('updateButtonText');
-			 $("#parsNew").multiselect("deselectAll", false).multiselect('updateButtonText');
-			 $('#parent').empty();
-		     });
-		 });
-
-		 
-		 
-		</Script>
-
-		<br>
-		<button>Filter by Parameters</button>
-		<button id="clearNew" type="button" onclick="clear();">Clear</button>
+		
 		
 		<!-- <select multiple id="sites" name="site"> -->
 		<!--   <option value="BELL">BELL</option> -->
