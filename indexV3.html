@@ -212,6 +212,11 @@
 	     
 	 }
 
+	 html.waiting
+	 {
+	     cursor:wait;
+	 }
+
 	 #newDateRange {
 	     width: 220px;
 	 }
@@ -610,6 +615,9 @@
 	 var base_url = 'http://appsvr.asrc.cestm.albany.edu:9093/';
 	 var datepicker = $('#datepicker');
 	 var datepicker2 = $('#datepicker2');
+	 //for spinner
+	 var respNum=0;
+	 var spin = 0;
 
 	 
 	 
@@ -784,7 +792,7 @@
 	 });
 
 	 //dropdown 2 end
-
+	 
 	 function sendDate(){
 	     /* minDate = datepicker[0].value;
 		curDateF = datepicker[0].value;
@@ -796,6 +804,9 @@
 		console.log(minDate);*/
 
 	     //var datepicker = $('#newDateRange').data('daterangepicker');
+	     //waiting spinner while data loads for curser
+	     $("html").addClass("waiting");
+	     
 	     var form = $('#form').alpaca('get');
 	     var datepicker = form.childrenByPropertyId['daterange'].control.data('daterangepicker');
 	     //var datepicker2 = $('#datepicker2');
@@ -855,6 +866,10 @@
 		     graphing(dateURL, id, site, par);
 		     k+=1
 		 }
+		 spin = sites.length * vars.length;
+		 /* if(spin == k){
+		    $("html").removeClass("waiting");
+		    }*/
 	     }
 	     
 	     
@@ -938,9 +953,11 @@
 
 	     
 	 }
-	 
+	 //$("html").removeClass("waiting");
 	 //function for making multiple graphs
 	 function graphing(dateURL, id, site, par){
+
+	     
 
 	     $.ajax({
 		 method: "GET",
@@ -991,7 +1008,17 @@
 	 
 	 function heatMap(response, id, site, par, max, min){
 	     //var datepicker = $('#newDateRange').data('daterangepicker');
+
+	     respNum+=1;
 	     //var datepicker2 = $('#datepicker2');
+	     console.log("numSpings "+spin);
+	     console.log("respNum"+respNum);
+
+	     if (respNum == spin){
+		 $("html").removeClass("waiting");
+	     }
+
+	     
 	     var form = $('#form').alpaca('get');
 	     var datepicker = form.childrenByPropertyId['daterange'].control.data('daterangepicker');
 
