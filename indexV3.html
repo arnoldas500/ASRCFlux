@@ -259,37 +259,37 @@
 		     
 		     <br> -->
 		<!-- new date range -->
-		<input type="text" id="newDateRange" name="daterange">
-		<br>
+		<!-- <input type="text" id="newDateRange" name="daterange">
+		     <br>
 
-		<script>
-		 $('input[name="daterange"]').daterangepicker();
-		 
-		</script>
+		     <script>
+		     $('input[name="daterange"]').daterangepicker();
+		     
+		     </script>
 
-		<!-- optione the plugin: -->
-		<script type="text/javascript">
-		 $(document).ready(function(event) {
+		     
+		     <script type="text/javascript">
+		     $(document).ready(function(event) {
 		     $('#parsNew').multiselect({
-			 includeSelectAllOption: true,
-			 selectAllValue: 'select-all-value'
+		     includeSelectAllOption: true,
+		     selectAllValue: 'select-all-value'
 		     });
 		     $('#clearNew').click(function(){
-			 console.log("here")
-			 /* $("button.multiselect").multiselect("deselectAll", false).multiselect('updateButtonText');*/
-			 $("#sitesNew").multiselect("deselectAll", false).multiselect('updateButtonText');
-			 $("#parsNew").multiselect("deselectAll", false).multiselect('updateButtonText');
-			 $('#parent').empty();
+		     console.log("here")
+		     /* $("button.multiselect").multiselect("deselectAll", false).multiselect('updateButtonText');*/
+		     $("#sitesNew").multiselect("deselectAll", false).multiselect('updateButtonText');
+		     $("#parsNew").multiselect("deselectAll", false).multiselect('updateButtonText');
+		     $('#parent').empty();
 		     });
-		 });
+		     });
 
-		 
-		 
-		</Script>
+		     
+		     
+		     </Script>
 
-		<br>
-		<button>Filter by Parameters</button>
-		<button id="clearNew" type="button" onclick="clear();">Clear</button>
+		     <br>
+		     <button>Filter by Parameters</button>
+		     <button id="clearNew" type="button" onclick="clear();">Clear</button> -->
 		<!-- 
 		     <dl class="dropdown" id="d1" > 
 		     
@@ -473,85 +473,85 @@
 		     </dl>
 		     <input type="checkbox" name="select-all2" id="select-all2" />Clear Parameters
 		-->
-		<!-- line break in html -->
-		<br>
-		<select id="sitesNew" multiple="multiple">
-		    <option value="BELL">BELL</option>
-		    <option value="BKLN">BKLN</option>
-		    <option value="BURT">BURT</option>
-		    <option value="CHAZ">CHAZ</option>
-		    <option value="FRED">FRED</option>
-		    <option value="ONTA">ONTA</option>
-		    <option value="OWEG">OWEG</option>
-		    <option value="PENN">PENN</option>
-		    <option value="QUEE">QUEE</option>
-		    <option value="REDF">REDF</option>
-		    <option value="REDH">REDH</option>
-		    <option value="SCHU">SCHU</option>
-		    <option value="STAT">STAT</option>
-		    <option value="VOOR">VOOR</option>
-		    <option value="WARS">WARS</option>
-		    <option value="WHIT">WHIT</option>
-		</select>
+		<!-- old drop down  -->
+		<!-- <br>
+		     <select id="sitesNew" multiple="multiple">
+		     <option value="BELL">BELL</option>
+		     <option value="BKLN">BKLN</option>
+		     <option value="BURT">BURT</option>
+		     <option value="CHAZ">CHAZ</option>
+		     <option value="FRED">FRED</option>
+		     <option value="ONTA">ONTA</option>
+		     <option value="OWEG">OWEG</option>
+		     <option value="PENN">PENN</option>
+		     <option value="QUEE">QUEE</option>
+		     <option value="REDF">REDF</option>
+		     <option value="REDH">REDH</option>
+		     <option value="SCHU">SCHU</option>
+		     <option value="STAT">STAT</option>
+		     <option value="VOOR">VOOR</option>
+		     <option value="WARS">WARS</option>
+		     <option value="WHIT">WHIT</option>
+		     </select>
 
-		<!-- Initialize the plugin: -->
-		<script type="text/javascript">
-		 $(document).ready(function() {
+		     
+		     <script type="text/javascript">
+		     $(document).ready(function() {
 		     $('#sitesNew').multiselect({
-			 includeSelectAllOption: true,
-			 selectAllValue: 'select-all-value'
+		     includeSelectAllOption: true,
+		     selectAllValue: 'select-all-value'
 		     });
-		 });
+		     });
 
-		 
+		-->
 		 
 		 
 		</Script>
 
-		<select id="parsNew" multiple="multiple">
-		    <option value="FC_mass">FC_mass</option>
-		    
-		    <option value="LE">LE</option>
-		    
-		    <option value="H">H</option>
-		    
-		    <option value="Rn">Rn</option>
-		    <option value="TAU">TAU</option>
-		    
-		    <option value="Bowen_ratio">Bowen_ratio</option>
-		    <option value="USTAR">USTAR</option>
-		    
-		    <option value="TKE">TKE</option>
-		    <option value="ZL">ZL</option>
-		    <option value="MO_LENGTH">MO_LENGTH</option>
-		    
-		    <option value="U">U</option>
-		    
-		    <option value="V">V</option>
-		    
-		    <option value="W">W</option>
-		    
-		    <option value="T_SONIC">T_SONIC</option>
-		    
-		    <option value="CO2">CO2</option>
-		    
-		    <option value="H2O">H2O</option>
-		    
-		    <!-- <option value="SW_IN_Avg">SW_IN_Avg</option> -->
-		    <option value="SW_IN">SW_IN</option>
-		    <option value="SW_OUT">SW_OUT</option>
-		    <option value="LW_IN">LW_IN</option>
-		    <option value="LW_OUT">LW_OUT</option>
-		    
-		    
-		    <option value="G_PLATE_1_1_1">G_PLATE_1_1_1</option>
-		    <option value="G_PLATE_2_1_1">G_PLATE_2_1_1</option>
-		    <option value="G_PLATE_3_1_1">G_PLATE_3_1_1</option>
-		    <option value="G_PLATE_4_1_1">G_PLATE_4_1_1</option>
-		    
-		    
+		<!-- <select id="parsNew" multiple="multiple">
+		     <option value="FC_mass">FC_mass</option>
+		     
+		     <option value="LE">LE</option>
+		     
+		     <option value="H">H</option>
+		     
+		     <option value="Rn">Rn</option>
+		     <option value="TAU">TAU</option>
+		     
+		     <option value="Bowen_ratio">Bowen_ratio</option>
+		     <option value="USTAR">USTAR</option>
+		     
+		     <option value="TKE">TKE</option>
+		     <option value="ZL">ZL</option>
+		     <option value="MO_LENGTH">MO_LENGTH</option>
+		     
+		     <option value="U">U</option>
+		     
+		     <option value="V">V</option>
+		     
+		     <option value="W">W</option>
+		     
+		     <option value="T_SONIC">T_SONIC</option>
+		     
+		     <option value="CO2">CO2</option>
+		     
+		     <option value="H2O">H2O</option>
+		     
+		     
+		     <option value="SW_IN">SW_IN</option>
+		     <option value="SW_OUT">SW_OUT</option>
+		     <option value="LW_IN">LW_IN</option>
+		     <option value="LW_OUT">LW_OUT</option>
+		     
+		     
+		     <option value="G_PLATE_1_1_1">G_PLATE_1_1_1</option>
+		     <option value="G_PLATE_2_1_1">G_PLATE_2_1_1</option>
+		     <option value="G_PLATE_3_1_1">G_PLATE_3_1_1</option>
+		     <option value="G_PLATE_4_1_1">G_PLATE_4_1_1</option>
+		     
+		     
 
-		</select>
+		     </select> -->
 		
 		
 		<!-- <select multiple id="sites" name="site"> -->
