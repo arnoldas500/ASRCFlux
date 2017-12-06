@@ -41,6 +41,27 @@ var vars = {
     G_PLATE_4_1_1: 'G_PLATE_4_1_1'
 };
 
+var loc = {
+    BELL:[ 43.78962,-76.11373 ],
+    BKLN:[ 40.631762,-73.953678 ],
+    BURT:[ 43.31699,-78.74903 ],
+    CHAZ:[ 44.89565,-73.46461 ],
+    FRED:[ 42.41817,-79.3666 ],
+    ONTA:[ 43.25941,-77.37331 ],
+    OWEG:[ 42.02571,-76.25543 ],
+    PENN:[ 42.65578,-76.98746 ],
+    QUEE:[ 40.734335,-73.815856 ],
+    REDF:[ 43.62218,-75.87769 ],
+    REDH:[ 42.00168,-73.88391 ],
+    SCHU:[ 43.116996,-73.578284 ],
+    SOUT:[ 41.040081,-72.465864 ],
+    STAT:[ 40.604014,-74.148499 ],
+    VOOR:[ 42.65242,-73.97562 ],
+    WARS:[ 42.77993,-78.20889 ],
+    WHIT:[ 43.485073,-73.423071 ]
+    
+}
+
 var sitesNew2 = {
 
 	BELL:'BELL',
@@ -54,7 +75,8 @@ var sitesNew2 = {
 	QUEE:'QUEE',
 	REDF:'REDF',
 	REDH:'REDH',
-	SCHU:'SCHU',
+        SCHU:'SCHU',
+        SOUT:'SOUT',
 	STAT:'STAT',
 	VOOR:'VOOR',
 	WARS:'WARS',
@@ -104,24 +126,37 @@ $(document).ready(function() {
 		    },
 		    reset: {
 			click: function(){
-			    this.getPropertyById['newSites2'].clear();
+			    //console.log(this)
+			    var form = $('#form').alpaca('get');
+			   
+			    var sitesNew3 = form.childrenByPropertyId['sitesNew2'];
+			    sitesNew3.setValue([]);
+			    sitesNew3.getControlEl().multiselect('refresh');
+
+			    var vars = form.childrenByPropertyId['variables'];
+			    vars.setValue([]);
+			    vars.control.multiselect('refresh');
+			    
 			}
 		    }
 		}
             },
             fields: {
 		daterange: {
-		    placeholder: 'Loading...',
+		    placeholder: 'Please select a date range',
 		    type: 'daterange',
 		    
 		    picker: newDateRange
 		},
 		sitesNew2: {
-                    type: "select",
+                    type: "leaflet-select",
 		    multiple: true,
 		    removeDefaultNone: true,
 		    multiselect: {includeSelectAllOption: true},
-		    dataSource: sitesNew2
+		    dataSource: sitesNew2,
+		    locations: loc,
+		    marker: marker_options,
+		    selectedMarker: selected_marker_options,
 		},
 		variables: {
                     type: 'select',
@@ -130,10 +165,10 @@ $(document).ready(function() {
 		    multiselect: {includeSelectAllOption: true},
 		    removeDefaultNone: true,
 		    sort: false,
-		    helper: "<a href=\"{% url 'datasets' %}\" target=\"_blank\">see data definitions</a>"
+		    helper: "<a href=\"http://appsvr.asrc.cestm.albany.edu/~xcite/fluxV3/helper.html\" target=\"_blank\">see data definitions</a>"
 		},
 
-		// sites: {
+		// sitesNew2: {
                 //     type: "leaflet-select",
 		//     removeDefaultNone: true,
 		//     multiple: true,
@@ -142,7 +177,7 @@ $(document).ready(function() {
 		//     marker: marker_options,
 		//     selectedMarker: selected_marker_options,
 		//     /* hideSelect: true*/
-		// },
+		// }
             }
 	},
 	view: {
