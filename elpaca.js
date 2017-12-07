@@ -92,7 +92,7 @@ var selected_marker_options = {color: 'orange'};
 $(document).ready(function() {
     $("#form").alpaca({
 	schema: {
-            title: "Data Options",
+            title: " ",
             type: "object",
             properties: {
 		daterange: {
@@ -101,11 +101,11 @@ $(document).ready(function() {
 		},
 		sitesNew2: {
                     type: 'string',
-                    title: 'Sites'
+                    title: 'Select Sites : '
 		},
 		variables: {
                     type: 'string',
-                    title: 'Parameters',
+                    title: 'Select Parameters : ',
 		    default: 'CO2'
 		},
 		// sites: {
@@ -185,3 +185,416 @@ $(document).ready(function() {
 	},
     })
 });
+
+
+Highcharts.setOptions({ global: { useUTC: false } });
+	 
+	 var base_url = 'http://appsvr.asrc.cestm.albany.edu:9093/';
+	 var datepicker = $('#datepicker');
+	 var datepicker2 = $('#datepicker2');
+	 //for spinner
+	 var respNum=0;
+	 var spin = 0;
+ 
+	 date_options = {dateFormat: 'yy/mm/dd'};
+	 
+	 datepicker.datepicker(date_options);
+	 datepicker2.datepicker(date_options);
+
+	 function dateFun(){
+	     var x = document.getElementById("date").action;
+	     document.getElementById("date").innerHTML = x;
+
+	     var x = document.getElementById("date").action;
+	     document.getElementById("date").innerHTML = x;
+	     //formObject.action = dateURL;
+	 }
+
+	 function getDate(){
+	     // minDate = datepicker[0].value;
+	 }
+
+	 //testing
+	 // Listen for click on toggle checkbox
+	 $('#select-all').click(function(event) {   
+	     if(this.checked) {
+		 // Iterate each checkbox
+		 $(':checkbox').each(function() {
+		     this.checked = false;
+		     //$('span[title="' + title + '"]').remove();
+		     //var ret = $(".hida");
+		     //$('.dropdown dt a').append(ret);
+		     $('.multiSel').text("");
+		     //document.getElementById("myForm").reset();
+		     $('#parent').empty();
+		 });
+	     }
+	 });
+
+	 var visible1 = false;
+	 $("#d1 dt a").on('click', function() {
+	     $("#d1 dd ul").slideToggle('fast');
+	     visible1 = true;
+	 });
+
+	 //make dropdown go away if clicked anywhere on page
+	 //id="ul_top_hypers"
+	 $("html").click(function(event){ 
+	     if (visible1 && (event.target.id == "date" || event.target.id == "parent")) {
+		 $("#d1 dd ul").hide();
+	     }
+	 });
+	 
+	 
+	 function getSelectedValue(id) {
+	     return $("#" + id).find("dt a span.value").html();
+	 };
+
+	 $(document).bind('click', function(e) {
+	     var $clicked = $(e.target);
+	     if (!$clicked.parents().has("d1")) $(".dropdown dd ul").hide();
+	 });
+
+	 $('.mutliSelect input[type="checkbox"]').on('click', function() {
+
+	     var title = $(this).closest('.mutliSelect').find('input[type="checkbox"]').val(),
+		 title = $(this).val() + ",";
+
+	     if ($(this).is(':checked')) {
+		 var html = '<span title="' + title + '">' + title + '</span>';
+		 $('.multiSel').append(html);
+		 $(".hida").hide();
+	     } else {
+		 $('span[title="' + title + '"]').remove();
+		 var ret = $(".hida");
+		 $('.dropdown dt a').append(ret);
+
+	     }
+
+	     
+	     
+	 });
+
+	 //end testing
+
+	 //dropdown 2
+	 // Listen for click on toggle checkbox
+	 $('#select-all2').click(function(event) {   
+	     if(this.checked) {
+		 // Iterate each checkbox
+		 $(':checkbox').each(function() {
+		     this.checked = false;
+		     //$('span[title="' + title + '"]').remove();
+		     //var ret = $(".hida2");
+		     //$('.dropdown dt a').append(ret);
+		     $('.multiSel2').text("");
+		     //document.getElementById("myForm").reset();
+		     $('#parent').empty();
+		 });
+	     }
+	 });
+
+	 var visible = false;
+	 $("#d2 dt a").on('click', function() {
+	     $("#d2 dd ul").slideToggle('fast');
+	     visible = true;
+	 });
+
+	 
+	 //make dropdown go away if clicked anywhere on page
+	 $("body").mouseup(function(event){ 
+	     if (visible && event.target.id == "date" ) {
+		 $("#d2 dd ul").hide();
+	     }
+	 });
+
+	 function getSelectedValue(id) {
+	     return $("#" + id).find("dt a span.value").html();
+	 };
+
+	 $(document).bind('click', function(e) {
+	     var $clicked = $(e.target);
+	     if (!$clicked.parents().has("#d2")) $(".dropdown dd ul").hide();
+	 });
+
+	 $('.mutliSelect2 input[type="checkbox"]').on('click', function() {
+
+	     var title = $(this).closest('.mutliSelect2').find('input[type="checkbox"]').val(),
+		 title = $(this).val() + ",";
+
+	     if ($(this).is(':checked')) {
+		 var html = '<span title="' + title + '">' + title + '</span>';
+		 $('.multiSel2').append(html);
+		 $(".hida2").hide();
+	     } else {
+		 $('span[title="' + title + '"]').remove();
+		 var ret = $(".hida2");
+		 $('#d2 dt a').append(ret);
+
+	     }
+
+	     
+	 });
+
+	 //dropdown 2 end
+	 
+	 function sendDate(){
+	     //waiting spinner while data loads for curser
+	     $("html").addClass("waiting");
+	     
+	     var form = $('#form').alpaca('get');
+	     var datepicker = form.childrenByPropertyId['daterange'].control.data('daterangepicker');
+	     //var datepicker2 = $('#datepicker2');
+	     
+	     curDateF = datepicker.startDate.format('YYYY/MM/DD');
+	     //curDateF = datepicker[0].value;
+	     lastDate = datepicker.endDate.format('YYYY/MM/DD');
+	     //maxDate = datepicker2[0].value;
+	     
+	     //var sites = document.getElementById('ul_top_hypers');
+	     //var sitesStr = sites.options[sites.selectedIndex].text;
+	     //for the sites
+	     var sites = document.getElementsByClassName("multiSel");
+	     console.log(sites);
+
+	     var objectHTMLCollection = document.getElementsByClassName("multiSel"),
+		 string = [].map.call( objectHTMLCollection, function(node){
+		     return node.textContent || node.innerText || "";
+		 }).join("");
+
+	     console.log(string);
+	     console.log(objectHTMLCollection);
+
+	     //for the parameters
+	     var pars = document.getElementsByClassName("multiSel2");
+	     console.log(sites);
+
+	     var objectHTMLCollection2 = document.getElementsByClassName("multiSel2"),
+		 string2 = [].map.call( objectHTMLCollection2, function(node){
+		     return node.textContent || node.innerText || "";
+		 }).join("");
+
+	     console.log(string2);
+	     console.log(objectHTMLCollection2);
+
+	     //var sitesStr = sites.options[sites.selectedIndex].text;
+
+	     //console.log(sitesStr);
+
+	     var div = document.createElement('div')
+	     k=0
+
+	     var sites = form.childrenByPropertyId['sitesNew2'].getValue();
+	     var vars = form.childrenByPropertyId['variables'].getValue();
+	     for (var site of sites){
+		 //test = item.innerText.split(",");
+		 //len = item.childNodes.length;
+		 for(var par of vars){
+		     
+		     dateURL = base_url + 'plot?dates=' + curDateF + '&dates=' + lastDate + '&site=' + site + '&par='+par;
+		     
+		     $('#parent').append('<div id="first'+k+'"></div>');
+
+		     
+		     id = "first"+k;
+		     console.log(id);
+		     graphing(dateURL, id, site, par);
+		     k+=1
+		 }
+		 spin = sites.length * vars.length;
+		 /* if(spin == k){
+		    $("html").removeClass("waiting");
+		    }*/
+	     }    
+
+	     
+	 }
+	 
+	 //$("html").removeClass("waiting");
+	 //function for making multiple graphs
+	 function graphing(dateURL, id, site, par){
+
+	     
+
+	     $.ajax({
+		 method: "GET",
+		 url: dateURL,
+	     }).done(function( response ) {
+
+		 getMaxMin(dateURL, response, id, site, par)
+		 
+		 
+		 //$('#csv').text(response);
+		 //response has json code
+		 //heatMap(response, id, site, par);
+	     })
+	      .fail(function(jqXHR){
+		  if(jqXHR.status==500 || jqXHR.status==0){
+		      $('#errorDiv').text("DATE OUT OF RANGE!!!").delay(2000).fadeOut();
+		      // internal server error or internet connection broke
+		      alert("NOTE: You selected a date thats out of range for site: " + site+"! Please try again!");
+		      //heatMap(response, id, site, par);
+		  }
+
+	      });
+	     
+	 };
+
+	 function getMaxMin(dateURL, response, id, site, par){
+	     //response = document.getElementById('csv').innerHTML
+	     d3.csv(dateURL, function (data) {
+		 console.log(data)
+
+		 data.forEach(function(d) {
+		     d.Temperature = +d.Temperature;
+		 });
+
+		 var max = d3.max(data, function(d) { return d.Temperature; });
+		 console.log("maxNew is "+ max)
+
+		 var min = d3.min(data, function(d) { return d.Temperature; });
+		 console.log("minNew is "+ min)
+
+		 $('#csv').text(response);
+		 //response has json code
+		 heatMap(response, id, site, par, max, min);
+	     })
+	 }
+	 
+	 
+	 
+	 function heatMap(response, id, site, par, max, min){
+	     //var datepicker = $('#newDateRange').data('daterangepicker');
+
+	     respNum+=1;
+	     //var datepicker2 = $('#datepicker2');
+	     console.log("numSpings "+spin);
+	     console.log("respNum"+respNum);
+
+	     if (respNum == spin){
+		 $("html").removeClass("waiting");
+	     }
+
+	     
+	     var form = $('#form').alpaca('get');
+	     var datepicker = form.childrenByPropertyId['daterange'].control.data('daterangepicker');
+
+	     
+	     curDateF = datepicker.startDate.toDate();
+	     //curDateF = datepicker[0].value;
+	     lastDate = datepicker.endDate.toDate();
+	     
+	     //heatmap stuff below
+	     Highcharts.chart(id, {
+
+		 data: {
+		     csv: document.getElementById('csv').innerHTML
+		     //csv: '/home/xcite/flux/myData.csv'
+		 },
+
+		 chart: {
+		     type: 'heatmap',
+		     //margin: [60, 10, 80, 50] //[60, 10, 80, 50]
+		 },
+		 //rowsize: .5,
+
+		 boost: {
+		     useGPUTranslations: true
+		 },
+
+		 title: {
+		     text: 'Highcharts heat map for site '+site+' showing '+par+' data',
+		     align: 'left',
+		     x: 40
+		 },
+
+		 subtitle: {
+		     text: par+'  variation by day and half hour for '+ site + ' on selected date range above',
+		     align: 'left',
+		     x: 40
+		 },
+
+
+		 //	 var minDate = getDate();
+		 xAxis: {
+		     type: 'datetime',
+		     
+		     //   min: Date.UTC(2017, 09, 01),
+		     /* min: (new Date(minYY, minMM-1, minDD)).getTime(),
+			max: (new Date(maxYY, maxMM-1, maxDD)).getTime(),*/
+
+		     min: curDateF.getTime(),
+		     max: lastDate.getTime(),
+
+		     
+		     
+		     labels: {
+			 align: 'center',
+			 x: 00,
+			 y: 25,
+			 format: '{value:%B}' // long month
+		     },
+		     showLastLabel: true, //changed from false
+		     tickLength: 16
+		 },
+
+		 yAxis: {
+		     title: {
+			 text: null
+		     },
+		     labels: {
+			 format: '{value}:00'
+		     },
+		     minPadding: 0,
+		     maxPadding: 0,
+		     startOnTick: false,
+		     endOnTick: false,
+		     tickPositions: [0, 6, 12, 18, 24], //[0, 6, 12, 18, 24]
+		     tickWidth: 0.5,
+		     
+		     min: 0,
+		     max: 24, //from 23
+		     reversed: false
+		 },
+
+		 colorAxis: {
+		     stops: [
+			 [0, '#3060cf'],
+			 //[0.25, '#99ffbb'],
+			 [0.5, '#fffbbc'],
+			 [0.8, '#c4463a'],
+			 [1, '#c4463a']
+		     ],
+		     min: min,//Math.min('{value}'),
+		     max: max,//Math.max('{value}'),
+		     startOnTick: true,
+		     endOnTick: true, //cahnged from false false
+		     labels: {
+			 format: '{value} '
+		     }
+		 },
+
+		 series: [{
+		     boostThreshold: 100,
+		     borderWidth: 0,
+		     nullColor: '#EFEFEF',
+		     //data:
+				//[ [0.0.-0.7] ] day hour co2 
+		     colsize: 24 * 36e5, // one day
+		     rowsize: 0.5,
+		     //find out what point is below ex point.x
+		     tooltip: {
+			 headerFormat: par+' Data<br/>',
+			 //day month, year then time in 24 hours then temp in deg C
+			 pointFormat: '{point.x:%e %b, %Y} {point.y}:00: <b>{point.value} </b>'
+		     },
+		     turboThreshold: 0//Number.MAX_VALUE // #3404, remove after 4.0.5 release
+		 }]
+
+	
+	     });
+
+	 }
+
+	 //Highcharts.setOptions({ global: { useUTC: false } });
+	 
