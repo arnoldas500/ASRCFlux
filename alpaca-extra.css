@@ -1,0 +1,78 @@
+ body {
+	     font: normal 14px/100% "Andale Mono", AndaleMono, monospace;
+	     padding: 50px;
+	     background-color: #374954;
+	 }
+	 h2 {
+	     color: white;
+	 }
+	 h3 {
+	     color: white;
+	 }
+	 h4 {
+	     color: white;
+	 }
+	 
+	 } */
+
+	 a {
+	     color: #fff;
+	 }
+
+	 button {
+	     background-color: #6BBE92;
+	     width: 302px;
+	     border: 0;
+	     padding: 10px 0;
+	     margin: 5px 0;
+	     text-align: center;
+	     color: #fff;
+	     font-weight: bold;
+	     
+	 }
+
+	 html.waiting
+	 {
+	     cursor:wait;
+	 }
+
+	 #newDateRange {
+	     width: 220px;
+	 }
+	 
+	 /* make the map work right */
+	 .alpaca-field-leaflet-select select {
+	     margin-bottom: 5px;
+	 }
+	 .alpaca-form-leaflet-select-map {
+	     height: 400px;
+	     width: 500px;
+	     border: 1px solid gray;
+	     /* float: right; */
+	     margin-right: 4px;
+	     /* margin-top: 5px; */
+	 }
+	 .control-label.alpaca-control-label{
+	     color: red;
+	     font: normal 14px/100% "Andale Mono", AndaleMono, monospace;
+	 }
+
+
+/* time range styling */
+.alpaca-field-daterange input {
+    min-width: 260px;
+}
+.daterangepicker .calendar {
+    max-width: 320px;
+}
+
+/* give the map some reasonable defaults */
+.alpaca-field-leaflet-select select,
+.alpaca-field-leaflet-select button {
+    margin-bottom: 5px;
+}
+.alpaca-form-leaflet-select-map {
+    height: 200px;
+    width: 250px;
+    border: 1px solid gray;
+}
