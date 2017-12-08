@@ -74,8 +74,10 @@ def testCSV(params, dates, dateStartList, dateEndList, select, par):
     #ex date(2017, 10, 10)
     dfList = []
     #getting all of the selected csv files according to date and sotring them into a list
-    
-    for curDate in perdelta(datetime.date(int(dateStartList[0]),int(dateStartList[1]),int(dateStartList[2])), datetime.date(int(dateEndList[0]), int(dateEndList[1]), int(dateEndList[2])), timedelta(days=1)):
+
+    last = datetime.date(int(dateEndList[0]), int(dateEndList[1]), int(dateEndList[2]))
+    lastPlus = last + timedelta(days=1)
+    for curDate in perdelta(datetime.date(int(dateStartList[0]),int(dateStartList[1]),int(dateStartList[2])), lastPlus, timedelta(days=1)):
         try:
             #print(curDate)
             #curDateSTR = datetime.datetime.strptime(dates, '%Y/%m/%d')
