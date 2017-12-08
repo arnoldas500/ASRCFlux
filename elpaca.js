@@ -1,4 +1,14 @@
-
+/* setting up some alpaca options */
+// var drpicker_options = {
+//     timePicker: true,
+//     timePicker24Hour: true,
+//     timePickerIncrement: 5,
+//     showDropdowns: true,
+//     locale: {
+// 	format: 'MM/DD/YYYY HH:mm'
+//     },
+//     opens: 'left'
+// };
 var newDateRange = {
     locale: {
 	format: 'MM/DD/YYYY'
@@ -27,6 +37,33 @@ var vars = {
     LW_OUT: 'LW_OUT',
     G_6cm: 'G_6cm'
 };
+
+//change the actual units 
+var units = {
+    FC_mass: 'FC_mass',
+    LE: 'LE',
+    H: 'H',
+    Rn: 'Rn',
+    TAU: 'TAU',
+    Bowen_ratio: 'Bowen_ratio',
+    USTAR: 'USTAR',
+    TKE: 'TKE',
+    ZL: 'ZL',
+    MO_LENGTH: 'MO_LENGTH',
+    U: 'U',
+    V: 'V',
+    W: 'W',
+    T_SONIC: 'T_SONIC',
+    CO2: 'CO2',
+    H2O: 'H2O',
+    SW_IN: 'SW_IN',
+    SW_OUT: 'SW_OUT',
+    LW_IN: 'LW_IN',
+    LW_OUT: 'LW_OUT',
+    G_6cm: 'G_6cm'
+};
+
+
 
 var loc = {
     BELL:[ 43.78962,-76.11373 ],
@@ -505,7 +542,7 @@ Highcharts.setOptions({ global: { useUTC: false } });
 		 //	 var minDate = getDate();
 		 xAxis: {
 		     type: 'datetime',
-		     
+		     //tickPixelInterval: 1,
 		     //   min: Date.UTC(2017, 09, 01),
 		     /* min: (new Date(minYY, minMM-1, minDD)).getTime(),
 			max: (new Date(maxYY, maxMM-1, maxDD)).getTime(),*/
@@ -516,12 +553,12 @@ Highcharts.setOptions({ global: { useUTC: false } });
 		     
 		     
 		     labels: {
-			 align: 'center',
-			 x: 00,
-			 y: 25,
-			 format: '{value:%B}' // long month
+			 //align: 'center',
+			 //x: 00,
+			 //y: 25,
+			 //format: '{value:%e}' // long month
 		     },
-		     showLastLabel: true, //changed from false
+		     showLastLabel: false, //changed from false
 		     tickLength: 16
 		 },
 
