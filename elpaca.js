@@ -1,14 +1,4 @@
-/* setting up some alpaca options */
-// var drpicker_options = {
-//     timePicker: true,
-//     timePicker24Hour: true,
-//     timePickerIncrement: 5,
-//     showDropdowns: true,
-//     locale: {
-// 	format: 'MM/DD/YYYY HH:mm'
-//     },
-//     opens: 'left'
-// };
+
 var newDateRange = {
     locale: {
 	format: 'MM/DD/YYYY'
@@ -35,10 +25,7 @@ var vars = {
     SW_OUT: 'SW_OUT',
     LW_IN: 'LW_IN',
     LW_OUT: 'LW_OUT',
-    G_PLATE_1_1_1: 'G_PLATE_1_1_1',
-    G_PLATE_2_1_1: 'G_PLATE_2_1_1',
-    G_PLATE_3_1_1: 'G_PLATE_3_1_1',
-    G_PLATE_4_1_1: 'G_PLATE_4_1_1'
+    G_6cm: 'G_6cm'
 };
 
 var loc = {
@@ -105,8 +92,8 @@ $(document).ready(function() {
 		},
 		variables: {
                     type: 'string',
-                    title: 'Select Parameters : ',
-		    default: 'CO2'
+                    title: 'Select Parameters : '
+		    //default: 'CO2'
 		},
 		// sites: {
                 //     type: 'string',
