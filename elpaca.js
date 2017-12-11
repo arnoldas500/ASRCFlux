@@ -123,14 +123,14 @@ $(document).ready(function() {
 		    title: 'Time range (UTC)',
 		    type: 'string'
 		},
-		sitesNew2: {
-                    type: 'string',
-                    title: 'Select Sites : '
-		},
 		variables: {
                     type: 'string',
-                    title: 'Select Parameters : '
+                    title: 'Parameters:'
 		    //default: 'CO2'
+		},
+		sitesNew2: {
+                    type: 'string',
+                    title: 'Select Site'
 		},
 		// sites: {
                 //     type: 'string',
@@ -160,6 +160,8 @@ $(document).ready(function() {
 			    var vars = form.childrenByPropertyId['variables'];
 			    vars.setValue([]);
 			    vars.control.multiselect('refresh');
+			    $('#parent').empty();
+			    $("html").removeClass("waiting");
 			    
 			}
 		    }
@@ -172,6 +174,16 @@ $(document).ready(function() {
 		    
 		    picker: newDateRange
 		},
+		
+		variables: {
+                    type: 'select',
+		    dataSource: vars,
+		    multiple: true,
+		    multiselect: {includeSelectAllOption: true},
+		    removeDefaultNone: true,
+		    sort: false,
+		    
+		},
 		sitesNew2: {
                     type: "leaflet-select",
 		    multiple: true,
@@ -181,15 +193,7 @@ $(document).ready(function() {
 		    locations: loc,
 		    marker: marker_options,
 		    selectedMarker: selected_marker_options,
-		},
-		variables: {
-                    type: 'select',
-		    dataSource: vars,
-		    multiple: true,
-		    multiselect: {includeSelectAllOption: true},
-		    removeDefaultNone: true,
-		    sort: false,
-		    helper: "<a href=\"http://appsvr.asrc.cestm.albany.edu/~xcite/fluxV3/helper.html\" target=\"_blank\">see data definitions</a>"
+		    helper: "<a href=\"http://appsvr.asrc.cestm.albany.edu/~xcite/fluxV3/helper.html\" target=\"_blank\">Reference Page</a>"
 		},
 
 		// sitesNew2: {
@@ -205,7 +209,20 @@ $(document).ready(function() {
             }
 	},
 	view: {
-	    parent: "bootstrap-edit-extra"
+	    parent: "bootstrap-edit-extra",
+	    "layout": {
+		"template": '#moveBut2',
+		"bindings": {
+		    "daterange": "#left",
+                    "variables": "#left",
+		    "sitesNew2": "#left",
+                    
+		},
+		templates:{
+		    form: '#moveBut'
+		}
+            }
+	    
 	},
     })
 });
@@ -364,7 +381,9 @@ Highcharts.setOptions({ global: { useUTC: false } });
 	 
 	 function sendDate(){
 	     //waiting spinner while data loads for curser
+	     $('#parent').empty();
 	     $("html").addClass("waiting");
+	     respNum = 0;
 	     
 	     var form = $('#form').alpaca('get');
 	     var datepicker = form.childrenByPropertyId['daterange'].control.data('daterangepicker');
@@ -462,6 +481,9 @@ function graphing(dateURL, id, site, par,unit){
 		      // internal server error or internet connection broke
 		      alert("NOTE: You selected a date thats out of range for site: " + site+"! Please try again!");
 		      //heatMap(response, id, site, par);
+		      //get ride of spinner
+		      $("html").removeClass("waiting");
+		      
 		  }
 
 	      });
