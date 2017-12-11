@@ -1,12 +1,19 @@
 <html>
     <head>
-	<title>Profile Data Browser - xCITE Data Lab</title>
+	<title>Flux Data Browser - xCITE Data Lab</title>
 	<!-- jquery stuff -->
-	<!--    <script src = "/jquery/jquery.min.js"></script> -->
-	<script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js">
+	
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+	<script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"> 
 	 <!--    <script src = "/highcharts/highcharts.js"></script> -->
 	<script src = "https://code.highcharts.com/highcharts.js"></script>
 	<meta charset="utf-8">
+
+	<!-- jquery ui stuff (for calendar dropdown) -->
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	
 	<script src="https://code.highcharts.com/highcharts.js"></script>
 	<script src="https://code.highcharts.com/modules/heatmap.js"></script>
 	<script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -15,141 +22,57 @@
 	<script src="https://code.highcharts.com/modules/boost.js"></script>
 	<script src="https://d3js.org/d3.v4.min.js"></script>
 
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.js"></script>
-	
-	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- leaflet stuff -->
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css" integrity="sha512-wcw6ts8Anuw10Mzh9Ytw4pylW8+NAD4ch3lqm9lzAsTxg0GFeJgoAtxuCLREZSC5lUXdVyo/7yfsqFjQ4S+aKw==" crossorigin="">
 	<script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js" integrity="sha512-mNqn2Wg7tSToJhvHcqfzLMU6J4mkOImSPTxVZAdo+lcPlk+GhZmYgACEe0x35K7YzW1zJ7XyJV/TT1MrdXvMcA==" crossorigin=""></script>
 
-	<!-- jquery ui stuff (for calendar dropdown) -->
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<!-- timepicker stuff 
-	     <script src="js/jquery.timepicker.min.js"></script>
-	     <link rel="stylesheet" type="text/css" href="css/jquery.timepicker.min.css">
-	-->
-	<!-- spinning stuff -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.js"></script>
-	<!-- a bit of styling -->
+	<!-- alpaca -->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+        <link rel="stylesheet" href="//code.cloudcms.com/alpaca/1.5.23/bootstrap/alpaca.min.css" rel="stylesheet" />
+        <script src="//code.cloudcms.com/alpaca/1.5.23/bootstrap/alpaca.min.js"></script>
+	
+	<script src="js/alpaca-extra.js"></script>
+
+	<!-- bootstrap for new dropdown -->
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css">
+
+	<!-- bootstrap for new date range -->
+	<script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+	
+	<!-- Include Date Range Picker -->
+	<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+	<link rel="stylesheet" href="css/alpaca-extra.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.js"></script>
+	
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="js/elpaca.js"></script>
+
 	<style>
-	 h2 {
-	     display: inline-block;
-	     width: 50%;
-	     margin-top: 10px;
-	 }
-
-
-
 	 body {
 	     font: normal 14px/100% "Andale Mono", AndaleMono, monospace;
-	     color: #fff;
-	     /*
-		padding: 50px;
-		width: 300px;
-	      */
-	     margin: 0 auto;
+	     padding: 50px;
 	     background-color: #374954;
 	 }
-
-	 #d1{
-	     display: inline-grid;
+	 h2 {
+	     color: white;
 	 }
-
-	 #d2{
-	     display: inline-grid;
+	 h3 {
+	     color: white;
+	 }
+	 h4 {
+	     color: white;
 	 }
 	 
-	 .dropdown {
-	     /*
-		position: inherit;
-		
-		top:50%;
-
-		transform: translateY(-50%);
-	      */ 
-	     
-	 }
+	 } */
 
 	 a {
 	     color: #fff;
 	 }
-
-	 .dropdown dd,
-	 .dropdown dt {
-	     margin: 0px;
-	     padding: 0px;
-	 }
-
-	 .dropdown ul {
-	     margin: -1px 0 0 0;
-	 }
-
-	 .dropdown dd {
-	     position: relative;
-	 }
-
-	 .dropdown a,
-	 .dropdown a:visited {
-	     color: #fff;
-	     text-decoration: none;
-	     outline: none;
-	     font-size: 12px;
-	 }
-
-	 .dropdown dt a {
-	     background-color: #4F6877;
-	     display: block;
-	     padding: 8px 20px 5px 10px;
-	     min-height: 25px;
-	     line-height: 24px;
-	     overflow: hidden;
-	     border: 0;
-	     width: 272px;
-	 }
-
-	 .dropdown dt a span,
-	 .multiSel span {
-	     cursor: pointer;
-	     display: inline-block;
-	     padding: 0 3px 2px 0;
-	 }
-
-	 .dropdown dd ul {
-	     background-color: #4F6877;
-	     border: 0;
-	     color: #fff;
-	     display: none;
-	     left: 0px;
-	     padding: 2px 15px 2px 5px;
-	     position: absolute;
-	     top: 2px;
-	     width: 280px;
-	     list-style: none;
-	     height: 350px;
-	     overflow: auto;
-	 }
-
-	 .dropdown span.value {
-	     display: none;
-	 }
-
-	 .dropdown dd ul li a {
-	     padding: 5px;
-	     display: block;
-	 }
-
-	 .dropdown dd ul li a:hover {
-	     background-color: #fff;
-	 }
-	 /*
-	    #ul_top_hypers li {
-	    display: inline;
-	    }
-	  */	
 
 	 button {
 	     background-color: #6BBE92;
@@ -160,996 +83,124 @@
 	     text-align: center;
 	     color: #fff;
 	     font-weight: bold;
+	     
+	 }
+
+	 html.waiting
+	 {
+	     cursor:wait;
+	 }
+
+	 #newDateRange {
+	     width: 220px;
 	 }
 	 
-	 
+	 /* make the map work right */
+	 .alpaca-field-leaflet-select select {
+	     margin-bottom: 5px;
+	 }
+	 .alpaca-form-leaflet-select-map {
+	     height: 400px;
+	     width: 500px;
+	     border: 1px solid gray;
+	     /* float: right; */
+	     margin-right: 4px;
+	     /* margin-top: 5px; */
+	 }
+	 .control-label.alpaca-control-label{
+	     color: red;
+	     font: normal 14px/100% "Andale Mono", AndaleMono, monospace;
+	 }
+
+	 .alpaca-field-select .btn-group {
+    display: inline-block;
+}
 
 	</style>
     </head>
     <body>
 	<h2>Flux data</h2><h3>xCITE Lab</h3>
-	<fieldset>
-	    <legend>Parameters:</legend>
-	    <form id="date" action="javascript:sendDate()">
-		<label for="datepicker">Time range (UTC):</label><br>
-		<!-- <input type="text" id="datepicker"> -->
-		<input type="text" id="datepicker" class="date start" name="dates">
-		<!--	<input type="text" class="date start"> -->
-		to
-		<input type="text" id="datepicker2" class="date end">
-		<!--	<input type="text" class="date end">    -->
-		<input type="checkbox" name="select-all" id="select-all" />Clear Sites
 
-		<dl class="dropdown" id="d1" > 
-		    
-		    <dt>
-			<a href="#">
-			    <span class="hida">Select Sites</span>    
-			    <p class="multiSel"></p>  
-			</a>
-		    </dt>
-		    
-		    <dd>
-			<div class="mutliSelect" >
-			    <ul id="ul_top_hypers">
-				<li>
-				    <!-- select all boxes -->
-				    <input type="checkbox" name="select-all" id="select-all" />Clear All
-				</li>
-				<li>
-				    <input type="checkbox" value="BELL" />BELL
-				</li>
-				<li>
-				    <input type="checkbox" value="BKLN" />BKLN
-				</li>
-				<li>
-				    <input type="checkbox" value="BURT" />BURT
-				</li>
-				<li>
-				    <input type="checkbox" value="CHAZ" />CHAZ
-				</li>
-				<li>
-				    <input type="checkbox" value="FRED" />FRED
-				</li>
-				<li>
-				    <input type="checkbox" value="ONTA" />ONTA
-				</li>
-				<li>
-				    <input type="checkbox" value="OWEG" />OWEG
-				</li>
-				<li>
-				    <input type="checkbox" value="PENN" />PENN
-				</li>
-				<li>
-				    <input type="checkbox" value="QUEE" />QUEE
-				</li>
-				<li>
-				    <input type="checkbox" value="REDF" />REDF
-				</li>
-				<li>
-				    <input type="checkbox" value="REDH" />REDH
-				</li>
-				<li>
-				    <input type="checkbox" value="SCHU" />SCHU
-				</li>
-				<li>
-				    <input type="checkbox" value="STAT" />STAT
-				</li>
-				
-				<li>
-				    <input type="checkbox" value="VOOR" />VOOR
-				</li>
-				<li>
-				    <input type="checkbox" value="WARS" />WARS
-				</li>
-				<li>
-				    <input type="checkbox" value="WHIT" />WHIT
-				</li>
-				
-			    </ul>
-			</div>
-		    </dd>
-		    <button>Filter by date & site</button>
-		</dl>
+	<!-- div for alpaca stuff -->
+	<div id="form">
 
-		
-		<dl class="dropdown" id="d2"> 
-		    
-		    <dt>
-			<a href="#">
-			    <span class="hida2">Select Parameters</span>    
-			    <p class="multiSel2"></p>  
-			</a>
-		    </dt>
-		    
-		    <dd>
-			<div class="mutliSelect2">
-			    <ul id="ul_top_hypers2">
-				
-				<li>
-				    <!-- select all boxes -->
-				    <input type="checkbox" name="select-all2" id="select-all2" />Clear All
-				</li>
-				
+	</div>
 
-				<li>
-				    <input type="checkbox" value="FC_mass" />FC_mass
-				</li>
-				<li>
-				    <input type="checkbox" value="FC_QC" />FC_QC
-				</li>
-				<li>
-				    <input type="checkbox" value="FC_samples_Tot" />FC_samples_Tot
-				</li>
-				<li>
-				    <input type="checkbox" value="FC_SSITC_TEST" />FC_SSITC_TEST
-				</li>
-				<li>
-				    <input type="checkbox" value="LE" />LE
-				</li>
-				<li>
-				    <input type="checkbox" value="LE_QC" />LE_QC
-				</li>
-				<li>
-				    <input type="checkbox" value="LE_samples_Tot" />LE_samples_Tot
-				</li>
-				<li>
-				    <input type="checkbox" value="LE_SSITC_TEST" />LE_SSITC_TEST
-				</li>
-				<li>
-				    <input type="checkbox" value="H" />H
-				</li>
-				<li>
-				    <input type="checkbox" value="H_QC" />H_QC
-				</li>
-				<li>
-				    <input type="checkbox" value="H_samples_Tot" />H_samples_Tot
-				</li>
-				<li>
-				    <input type="checkbox" value="H_SSITC_TEST" />H_SSITC_TEST
-				</li>
-				<li>
-				    <input type="checkbox" value="Rn" />Rn
-				</li>
-				<li>
-				    <input type="checkbox" value="TAU" />TAU
-				</li>
-				<li>
-				    <input type="checkbox" value="TAU_QC" />TAU_QC
-				</li>
-				<li>
-				    <input type="checkbox" value="TAU_SSITC_TEST" />TAU_SSITC_TEST
-				</li>
-				<li>
-				    <input type="checkbox" value="Bowen_ratio" />Bowen_ratio
-				</li>
-				<li>
-				    <input type="checkbox" value="USTAR" />USTAR
-				</li>
-				<li>
-				    <input type="checkbox" value="TSTAR" />TSTAR
-				</li>
-				<li>
-				    <input type="checkbox" value="TKE" />TKE
-				</li>
-				<li>
-				    <input type="checkbox" value="ZL" />ZL
-				</li>
-				<li>
-				    <input type="checkbox" value="MO_LENGTH" />MO_LENGTH
-				</li>
-				<li>
-				    <input type="checkbox" value="PA" />PA
-				</li>
-				<li>
-				    <input type="checkbox" value="PA_SIGMA" />PA_SIGMA
-				</li>
-				<li>
-				    <input type="checkbox" value="TA_1_1_1" />TA_1_1_1
-				</li>
-				<li>
-				    <input type="checkbox" value="TA_SIGMA_1_1_1" />TA_SIGMA_1_1_1
-				</li>
-				<li>
-				    <input type="checkbox" value="RH_1_1_1" />RH_1_1_1
-				</li>
-				<li>
-				    <input type="checkbox" value="T_DP_1_1_1" />T_DP_1_1_1
-				</li>
-				<li>
-				    <input type="checkbox" value="VPD" />VPD
-				</li>
-				<li>
-				    <input type="checkbox" value="WS" />WS
-				</li>
-				<li>
-				    <input type="checkbox" value="WS_RSLT" />WS_RSLT
-				</li>
-				<li>
-				    <input type="checkbox" value="WS_MAX" />WS_MAX
-				</li>
-				<li>
-				    <input type="checkbox" value="sonic_azimuth" />sonic_azimuth
-				</li>
-				<li>
-				    <input type="checkbox" value="WD_SONIC" />WD_SONIC
-				</li>
-				<li>
-				    <input type="checkbox" value="WD_SIGMA" />WD_SIGMA
-				</li>
-				<li>
-				    <input type="checkbox" value="WD" />WD
-				</li>
-				<li>
-				    <input type="checkbox" value="U" />U
-				</li>
-				<li>
-				    <input type="checkbox" value="U_SIGMA" />U_SIGMA
-				</li>
-				<li>
-				    <input type="checkbox" value="V" />V
-				</li>
-				<li>
-				    <input type="checkbox" value="V_SIGMA" />V_SIGMA
-				</li>
-				<li>
-				    <input type="checkbox" value="W" />W
-				</li>
-				<li>
-				    <input type="checkbox" value="W_SIGMA" />W_SIGMA
-				</li>
-				<li>
-				    <input type="checkbox" value="T_SONIC" />T_SONIC
-				</li>
-				<li>
-				    <input type="checkbox" value="T_SONIC_SIGMA" />T_SONIC_SIGMA
-				</li>
-				<li>
-				    <input type="checkbox" value="CO2" />CO2
-				</li>
-				<li>
-				    <input type="checkbox" value="CO2_SIGMA" />CO2_SIGMA
-				</li>
-				<li>
-				    <input type="checkbox" value="CO2_density_Avg" />CO2_density_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="CO2_density_SIGMA" />CO2_density_SIGMA
-				</li>
-				<li>
-				    <input type="checkbox" value="CO2_sig_strgth_Min" />CO2_sig_strgth_Min
-				</li>
-				<li>
-				    <input type="checkbox" value="H2O" />H2O
-				</li>
-				<li>
-				    <input type="checkbox" value="H2O_SIGMA" />H2O_SIGMA
-				</li>
-				<li>
-				    <input type="checkbox" value="H2O_density_Avg" />H2O_density_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="H2O_density_SIGMA" />H2O_density_SIGMA
-				</li>
-				<li>
-				    <input type="checkbox" value="H2O_sig_strgth_Min" />H2O_sig_strgth_Min
-				</li>
-				<li>
-				    <input type="checkbox" value="ALB" />ALB
-				</li>
-				<li>
-				    <input type="checkbox" value="SW_IN_Avg" />SW_IN_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="SW_OUT" />SW_OUT
-				</li>
-				<li>
-				    <input type="checkbox" value="LW_IN" />LW_IN
-				</li>
-				<li>
-				    <input type="checkbox" value="LW_OUT" />LW_OUT
-				</li>
-				<li>
-				    <input type="checkbox" value="R_LW_in_meas_Avg" />R_LW_in_meas_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="R_LW_out_meas_Avg" />R_LW_out_meas_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="G_PLATE_1_1_1" />G_PLATE_1_1_1
-				</li>
-				<li>
-				    <input type="checkbox" value="G_PLATE_2_1_1" />G_PLATE_2_1_1
-				</li>
-				<li>
-				    <input type="checkbox" value="G_PLATE_3_1_1" />G_PLATE_3_1_1
-				</li>
-				<li>
-				    <input type="checkbox" value="G_PLATE_4_1_1" />G_PLATE_4_1_1
-				</li>
-				<li>
-				    <input type="checkbox" value="FETCH_MAX" />FETCH_MAX
-				</li>
-				<li>
-				    <input type="checkbox" value="FETCH_90" />FETCH_90
-				</li>
-				<li>
-				    <input type="checkbox" value="FETCH_55" />FETCH_55
-				</li>
-				<li>
-				    <input type="checkbox" value="FETCH_40" />FETCH_40
-				</li>
-				<li>
-				    <input type="checkbox" value="UPWND_DIST_INTRST" />UPWND_DIST_INTRST
-				</li>
-				<li>
-				    <input type="checkbox" value="FTPRNT_DIST_INTRST" />FTPRNT_DIST_INTRST
-				</li>
-				<li>
-				    <input type="checkbox" value="FTPRNT_EQUATION" />FTPRNT_EQUATION
-				</li>
-				<li>
-				    <input type="checkbox" value="albedo_Avg" />albedo_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="NetRad_Avg" />NetRad_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="R_SW_in_Avg" />R_SW_in_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="R_SW_out_Avg" />R_SW_out_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="R_LW_in_Avg" />R_LW_in_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="R_LW_out_Avg" />R_LW_out_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="T_nr_Avg" />T_nr_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="cdm_pwr_state_Avg" />cdm_pwr_state_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="ec100_relay_state_Avg" />ec100_relay_state_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="ec155_off_flg_Avg" />ec155_off_flg_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="nr_heater_state_Avg" />nr_heater_state_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="nr_ventilator_state_Avg" />nr_ventilator_state_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="nr_ventilator_state_Avgnr_tachometer_Avg" />nr_ventilator_state_Avgnr_tachometer_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="low_power_Avg" />low_power_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="standby_EC_Avg" />standby_EC_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="full_EC_Avg" />full_EC_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="Hour" />Hour
-				</li>
-				<li>
-				    <input type="checkbox" value="valve_tmpr_Avg" />valve_tmpr_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="pump_tmpr_Avg" />pump_tmpr_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="cell_tmpr_Avg" />cell_tmpr_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="Ts_Avg" />Ts_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="batt_volt_CR6_Avg" />batt_volt_CR6_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="sys_Watts_Avg" />sys_Watts_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="intake_heater_pwr_Avg" />intake_heater_pwr_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="VBatt_Avg" />VBatt_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="IBatt_Avg" />IBatt_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="ILoad_Avg" />ILoad_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="V_in_chg_Avg" />V_in_chg_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="I_in_chg_Avg" />I_in_chg_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="Chg_TmpC_Avg" />Chg_TmpC_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="ChargeState" />ChargeState
-				</li>
-				<li>
-				    <input type="checkbox" value="ChargeSource" />ChargeSource
-				</li>
-				<li>
-				    <input type="checkbox" value="CheckBattery" />CheckBattery
-				</li>
-				<li>
-				    <input type="checkbox" value="SolarPanels_ON_Avg" />SolarPanels_ON_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="RunAvgSW_IN_Avg" />RunAvgSW_IN_Avg
-				</li>
-				<li>
-				    <input type="checkbox" value="LWS_status" />LWS_status
-				    <li>
-					<input type="checkbox" value="RunAvgLWS_volt_Avg" />RunAvgLWS_volt_Avg
-				    </li>
-				    
-				    
-				    
-			    </ul>
-			</div>
-		    </dd>
-		    <button>Filter by Parameters</button>
-		</dl>
-		<input type="checkbox" name="select-all2" id="select-all2" />Clear Parameters
-		
-		<!-- <select multiple id="sites" name="site"> -->
-		<!--   <option value="BELL">BELL</option> -->
-		<!--   <option value="BKLN">BKLN</option> -->
-		<!--   <option value="BURT">BURT</option> -->
-		<!--   <option value="CHAZ">CHAZ</option> -->
-		<!--   <option value="FRED">FRED</option> -->
-		<!--   <option value="ONTA">ONTA</option> -->
-		<!--   <option value="OWEG">OWEG</option> -->
-		<!--   <option value="PENN">PENN</option> -->
-		<!--   <option value="QUEE">QUEE</option> -->
-		<!--   <option value="REDF">REDF</option> -->
-		<!--   <option value="REDH">REDH</option> -->
-		<!--   <option value="SCHU">SCHU</option> -->
-		<!--   <option value="SOUT">SOUT</option> -->
-		<!--   <option value="STAT">STAT</option> -->
-		<!--   <option value="VOOR">VOOR</option> -->
-		<!--   <option value="WARS">WARS</option> -->
-		<!--   <option value="WHIT">WHIT</option> -->
-		<!-- </select> -->
-		<!-- <input type="submit" value="Submit"> -->
 
-	    </form>
-	</fieldset>
+	<script type="text/x-handlebars-template" id="moveBut">
+
+    <form role="form">
+
+        {{#formItems}}{{/formItems}}
+
+        
+
+    </form>
+
+	</script>
+
+	<script type="text/x-handlebars-template" id="moveBut2">
+
+   <div>
+    {{#if options.label}}
+    <legend>{{options.label}}</legend>
+    {{/if}}
+
+    {{#if options.helpers}}
+    {{#each options.helpers}}
+    <p class="alpaca-helper help-block {{#if options.helperClass}}{{options.helperClass}}{{/if}}">
+        <i class="alpaca-icon-16 glyphicon glyphicon-info-sign"></i>
+        {{{.}}}
+    </p>
+    {{/each}}
+    {{/if}}
+
+    <div class="container-fluid">
+	<div class="row">
+            <div class="col-md-6" id="left"></div>
+            <div class="col-md-6" id="right">
+	      <div class="alpaca-form-buttons-container">
+            {{#if options.buttons}}
+                {{#each options.buttons}}
+                    <button data-key="{{@key}}" type="{{type}}" {{#if id}}id="{{id}}"{{/if}} class="alpaca-form-button alpaca-form-button-{{@key}} {{styles}}" {{#each value}}{{@key}}="{{this}}"{{/each}} {{#each attributes}} {{@key}}="{{this}}"{{/each}}>{{{value}}}</button>
+                {{/each}}
+            {{/if}}
+</div>
+
+	    </div>
+	    
+	</div>
+    </div>
+</div>
+
+
+</script>
 	
-	<!--
-	     <div id="container" style="height: 300px; min-width: 310px; max-width: 1000px; margin: 0 auto"></div>
-
-	     <!-- Source: http://vikjavev.no/ver/highcharts-demos/heatmap.csv.php?year=2013 
-	     <pre id="csv" style="display: none">Date,Time,Temperature
-
-	     <style type="text/css">
-	     body { font-family:arial, helvetica, sans-serif; font-weight:normal; font-size:13px; color:#000; text-align:left; margin:3px 0px; }
-	     #wrap { width:500px; height:500px; margin:20px;  }
-	     </style>
-
-	     <script type="text/javascript">
-	     $.get('/home/xcite/flux/myData.csv', function(data) {
-	     var build = '<table border="1" cellpadding="2" cellspacing="0" style="border-collapse: collapse" width="100%">\n';
-	     var rows = data.split("\n");
-	     rows.forEach( function getvalues(thisRow) {
-	     build += "<tr>\n";
-	     var columns = thisRow.split(",");
-	     for(var i=0;i<columns.length;i++){ build += "<td>" + columns[i] + "</td>\n"; }   			
-	     build += "</tr>\n";
-	     })
-	     build += "</table>";
-	     $('#wrap').append(build);	
-	     });</script>
-
+	<!-- <fieldset>
 	     
-	     </pre>
+	     <form id="date" action="javascript:sendDate()">
+	     
+	     </fieldset> -->
 
-	-->
-	<!-- <a id="append">Add DIV</a> -->
+	<!-- div where each heat map gets put into -->
 	<div id="parent" ></div>
 
-	
-	<script type="text/javascript">
-	 Highcharts.setOptions({ global: { useUTC: false } });
-	 
-	 var base_url = 'http://appsvr.asrc.cestm.albany.edu:9093/';
-	 var datepicker = $('#datepicker');
-	 var datepicker2 = $('#datepicker2');
-	 //var sites = $('#sites');
-	 //var sites = document.getElementById('sites');
-	 //var sitesStr = sites.options[sites.selectedIndex].text;
-
-
-	 var curDate = datepicker[0].value
-	 
-	 date_options = {dateFormat: 'yy/mm/dd'};
-	 /* var splitDate = curDate.split("/");
-	    var minYYStr = splitDate[0];
-	    var minMMStr = splitDate[1];
-	    var minDDStr = splitDate[2];
-
-	    var minYY = parseInt(minYYStr)
-	    var minMM = parseInt(minMMStr)
-	    var minDD = parseInt(minDDStr)*/
-	 
-	 datepicker.datepicker(date_options);
-	 datepicker2.datepicker(date_options);
-
-	 var dateURL = base_url + 'plot?dates=' + curDate ;
-
-	 function dateFun(){
-	     var x = document.getElementById("date").action;
-	     document.getElementById("date").innerHTML = x;
-
-	     var x = document.getElementById("date").action;
-             document.getElementById("date").innerHTML = x;
-	     //formObject.action = dateURL;
-	 }
-
-	 function getDate(){
-	     // minDate = datepicker[0].value;
-	 }
-
-	 //testing
-	 // Listen for click on toggle checkbox
-	 $('#select-all').click(function(event) {   
-	     if(this.checked) {
-		 // Iterate each checkbox
-		 $(':checkbox').each(function() {
-		     this.checked = false;
-		     //$('span[title="' + title + '"]').remove();
-		     //var ret = $(".hida");
-		     //$('.dropdown dt a').append(ret);
-		     $('.multiSel').text("");
-		     //document.getElementById("myForm").reset();
-		     $('#parent').empty();
-		 });
-	     }
-	 });
-
-	 var visible1 = false;
-	 $("#d1 dt a").on('click', function() {
-	     $("#d1 dd ul").slideToggle('fast');
-	     visible1 = true;
-	 });
-
-	 //$("#d2 dd ul li a").on('click', function() {
-	 //    $("#d2 dd ul").hide();
-	 //});
-	 //make dropdown go away if clicked anywhere on page
-	 //id="ul_top_hypers"
-	 $("html").click(function(event){ 
-	     if (visible1 && (event.target.id == "date" || event.target.id == "parent")) {
-		 $("#d1 dd ul").hide();
-	     }
-	 });
+	<!-- <script type="text/javascript">
 	     
-	     
-	     //$("#d1 dt a").on('click', function() {
-	     //    $("#d1 dd ul").slideToggle('fast');
-	     //});
-
-	     //$("#d1 dd ul li a").on('click', function() {
-	     //    $("#d1 dd ul").hide();
-	     //});
-
-	     function getSelectedValue(id) {
-		 return $("#" + id).find("dt a span.value").html();
-	     };
-
-	     $(document).bind('click', function(e) {
-		 var $clicked = $(e.target);
-		 if (!$clicked.parents().has("d1")) $(".dropdown dd ul").hide();
-	     });
-
-	     $('.mutliSelect input[type="checkbox"]').on('click', function() {
-
-		 var title = $(this).closest('.mutliSelect').find('input[type="checkbox"]').val(),
-		     title = $(this).val() + ",";
-
-		 if ($(this).is(':checked')) {
-		     var html = '<span title="' + title + '">' + title + '</span>';
-		     $('.multiSel').append(html);
-		     $(".hida").hide();
-		 } else {
-		     $('span[title="' + title + '"]').remove();
-		     var ret = $(".hida");
-		     $('.dropdown dt a').append(ret);
-
-		 }
-
-		 
-		 
-	     });
-
-	     //end testing
-
-	     //dropdown 2
-	     // Listen for click on toggle checkbox
-	     $('#select-all2').click(function(event) {   
-		 if(this.checked) {
-		     // Iterate each checkbox
-		     $(':checkbox').each(function() {
-			 this.checked = false;
-			 //$('span[title="' + title + '"]').remove();
-			 //var ret = $(".hida2");
-			 //$('.dropdown dt a').append(ret);
-			 $('.multiSel2').text("");
-			 //document.getElementById("myForm").reset();
-			 $('#parent').empty();
-		     });
-		 }
-	     });
-
-	     var visible = false;
-	     $("#d2 dt a").on('click', function() {
-		 $("#d2 dd ul").slideToggle('fast');
-		 visible = true;
-	     });
-
-	     //$("#d2 dd ul li a").on('click', function() {
-	     //    $("#d2 dd ul").hide();
-	     //});
-	     //make dropdown go away if clicked anywhere on page
-	     $("body").mouseup(function(event){ 
-		 if (visible && event.target.id == "date" ) {
-		     $("#d2 dd ul").hide();
-		 }
-	     });
-
-	     function getSelectedValue(id) {
-		 return $("#" + id).find("dt a span.value").html();
-	     };
-
-	     $(document).bind('click', function(e) {
-		 var $clicked = $(e.target);
-		 if (!$clicked.parents().has("#d2")) $(".dropdown dd ul").hide();
-	     });
-
-	     $('.mutliSelect2 input[type="checkbox"]').on('click', function() {
-
-		 var title = $(this).closest('.mutliSelect2').find('input[type="checkbox"]').val(),
-		     title = $(this).val() + ",";
-
-		 if ($(this).is(':checked')) {
-		     var html = '<span title="' + title + '">' + title + '</span>';
-		     $('.multiSel2').append(html);
-		     $(".hida2").hide();
-		 } else {
-		     $('span[title="' + title + '"]').remove();
-		     var ret = $(".hida2");
-		     $('#d2 dt a').append(ret);
-
-		 }
-
-		 
-	     });
-
-	     //dropdown 2 end
-
-	     function sendDate(){
-		 minDate = datepicker[0].value;
-		 curDateF = datepicker[0].value;
-		 lastDate = datepicker2[0].value;
-		 maxDate = datepicker2[0].value;
-		 //var sites = document.getElementById('ul_top_hypers');
-		 //var sitesStr = sites.options[sites.selectedIndex].text;
-		 //for the sites
-		 var sites = document.getElementsByClassName("multiSel");
-		 console.log(sites);
-
-		 var objectHTMLCollection = document.getElementsByClassName("multiSel"),
-		     string = [].map.call( objectHTMLCollection, function(node){
-			 return node.textContent || node.innerText || "";
-		     }).join("");
-
-		 console.log(string);
-		 console.log(objectHTMLCollection);
-
-		 //for the parameters
-		 var pars = document.getElementsByClassName("multiSel2");
-		 console.log(sites);
-
-		 var objectHTMLCollection2 = document.getElementsByClassName("multiSel2"),
-		     string2 = [].map.call( objectHTMLCollection2, function(node){
-			 return node.textContent || node.innerText || "";
-		     }).join("");
-
-		 console.log(string2);
-		 console.log(objectHTMLCollection2);
-
-		 //var sitesStr = sites.options[sites.selectedIndex].text;
-
-		 //console.log(sitesStr);
-
-		 var div = document.createElement('div')
-		 k=0
-		 //for loop for graph function 
-		 for (var item of objectHTMLCollection){
-		     //test = item.innerText.split(",");
-		     len = item.childNodes.length;
-		     for(var i=0;i<len;i++){
-			 element = item.childNodes[i].innerText;
-			 console.log(element.replace(",", "") + " test " +len);
-			 site = element.replace(",", "");
-			 dateURL = base_url + 'plot?dates=' + curDateF + '&dates=' + lastDate + '&site=' + site;
-			 //			 document.body.appendChild(div);
-			 
-			 for(var item2 of objectHTMLCollection2){
-			     len2 = item2.childNodes.length;
-			     for(var j=0;j<len2;j++){
-				 element2 = item2.childNodes[j].innerText;
-				 console.log(element2.replace(",", "") + " test " +len2);
-				 par = element2.replace(",", "");
-				 dateURL = base_url + 'plot?dates=' + curDateF + '&dates=' + lastDate + '&site=' + site + '&par='+par;
-				 //			 document.body.appendChild(div);
-
-				 $('#parent').append('<div id="first'+k+'"></div>');
-
-				 
-				 id = "first"+k;
-				 console.log(id);
-				 graphing(dateURL, id, site, par);
-				 k+=1
-			     }
-			 }
-			 
-
-			 //$('#parent').append('<div id="first'+i+'"></div>');
-
-			 
-			 //id = "first"+i;
-			 //console.log(id);
-			 //graphing(dateURL, id, site);
-		     }
-		 }
-
-		 
-		 
-
-		 //	  Array.prototype.slice.call(document.getElementsByClassName("multiSel")).forEach(function (key)) {
-		 //          console.log(key.id);
-		 //	  }
-		 
-		 //dateURL = base_url + 'plot?dates=' + curDateF + '&dates=' + lastDate + '&site=' + 'BELL';
-
-		 //curDate = datepicker[0].value
-		 //         date_options = {dateFormat: 'yy/mm/dd'};
-		 splitDate = curDateF.split("/");
-		 splitDateMax = maxDate.split("/");
-		 
-		 minYYStr = splitDate[0];
-		 minMMStr = splitDate[1];
-		 minDDStr = splitDate[2];
-
-		 minYY = parseInt(minYYStr)
-		 minMM = parseInt(minMMStr)
-		 minDD = parseInt(minDDStr)
-
-		 maxYYStr = splitDateMax[0];
-		 maxMMStr = splitDateMax[1];
-		 maxDDStr = splitDateMax[2];
-
-		 maxYY = parseInt(maxYYStr)
-		 maxMM = parseInt(maxMMStr)
-		 maxDD = parseInt(maxDDStr)
-
-		 
-
-		 
-		 //heatMap();
-		 //graphing(dateURL)
-		 
-
-		 
-	     }
-	     
-	     //function for making multiple graphs
-	     function graphing(dateURL, id, site, par){
-
-		 $.ajax({
-		     method: "GET",
-		     url: dateURL,
-		 }).done(function( response ) {
-
-		     getMaxMin(dateURL, response, id, site, par)
-		     
-		     
-		     //$('#csv').text(response);
-		     //response has json code
-		     //heatMap(response, id, site, par);
-		 })
-		  .fail(function(jqXHR){
-		      if(jqXHR.status==500 || jqXHR.status==0){
-			  $('#errorDiv').text("DATE OUT OF RANGE!!!").delay(2000).fadeOut();
-			  // internal server error or internet connection broke
-			  alert("NOTE: You selected a date thats out of range for site: " + site+"! Please try again!");
-			  //heatMap(response, id, site, par);
-		      }
-
-		  });
-		 
-	     };
-
-	     function getMaxMin(dateURL, response, id, site, par){
-		 //response = document.getElementById('csv').innerHTML
-		 d3.csv(dateURL, function (data) {
-		     console.log(data)
-
-		     data.forEach(function(d) {
-			 d.Temperature = +d.Temperature;
-		     });
-
-		     var max = d3.max(data, function(d) { return d.Temperature; });
-		     console.log("maxNew is "+ max)
-
-		     var min = d3.min(data, function(d) { return d.Temperature; });
-		     console.log("minNew is "+ min)
-
-		     $('#csv').text(response);
-		     //response has json code
-		     heatMap(response, id, site, par, max, min);
-		 })
-	     }
-	     
-	     
-	     
-	     function heatMap(response, id, site, par, max, min){
-		 
-		 //heatmap stuff below
-		 Highcharts.chart(id, {
-
-		     data: {
-			 csv: document.getElementById('csv').innerHTML
-			 //csv: '/home/xcite/flux/myData.csv'
-		     },
-
-		     chart: {
-			 type: 'heatmap',
-			 //margin: [60, 10, 80, 50] //[60, 10, 80, 50]
-		     },
-		     //rowsize: .5,
-
-		     boost: {
-			 useGPUTranslations: true
-		     },
-
-		     title: {
-			 text: 'Highcharts heat map for site '+site+' showing '+par+' data',
-			 align: 'left',
-			 x: 40
-		     },
-
-		     subtitle: {
-			 text: par+'  variation by day and half hour for '+ site + ' on selected date range above',
-			 align: 'left',
-			 x: 40
-		     },
-
-
-		     //	 var minDate = getDate();
-		     xAxis: {
-			 type: 'datetime',
-			 
-			 //   min: Date.UTC(2017, 09, 01),
-			 min: (new Date(minYY, minMM-1, minDD)).getTime(),
-			 max: (new Date(maxYY, maxMM-1, maxDD)).getTime(),
-			 
-			 labels: {
-			     align: 'center',
-			     x: 00,
-			     y: 25,
-			     format: '{value:%B}' // long month
-			 },
-			 showLastLabel: true, //changed from false
-			 tickLength: 16
-		     },
-
-		     yAxis: {
-			 title: {
-			     text: null
-			 },
-			 labels: {
-			     format: '{value}:00'
-			 },
-			 minPadding: 0,
-			 maxPadding: 0,
-			 startOnTick: false,
-			 endOnTick: false,
-			 tickPositions: [0, 6, 12, 18, 24], //[0, 6, 12, 18, 24]
-			 tickWidth: 0.5,
-			 
-			 min: 0,
-			 max: 24, //from 23
-			 reversed: false
-		     },
-
-		     colorAxis: {
-			 stops: [
-			     [0, '#3060cf'],
-			     //[0.25, '#99ffbb'],
-			     [0.5, '#fffbbc'],
-			     [0.8, '#c4463a'],
-			     [1, '#c4463a']
-			 ],
-			 min: min,//Math.min('{value}'),
-			 max: max,//Math.max('{value}'),
-			 startOnTick: true,
-			 endOnTick: true, //cahnged from false false
-			 labels: {
-			     format: '{value} '
-			 }
-		     },
-
-		     series: [{
-			 boostThreshold: 100,
-			 borderWidth: 0,
-			 nullColor: '#EFEFEF',
-			 //data:
-				    //[ [0.0.-0.7] ] day hour co2 
-			 colsize: 24 * 36e5, // one day
-			 rowsize: 0.5,
-			 //find out what point is below ex point.x
-			 tooltip: {
-			     headerFormat: par+' Data<br/>',
-			     //day month, year then time in 24 hours then temp in deg C
-			     pointFormat: '{point.x:%e %b, %Y} {point.y}:00: <b>{point.value} </b>'
-			 },
-			 turboThreshold: 0//Number.MAX_VALUE // #3404, remove after 4.0.5 release
-		     }]
-
-		     // var json = {};   
-		     // json.chart = chart; 
-		     //  json.title = title;       
-		     //   json.xAxis = xAxis; 
-		     //   json.yAxis = yAxis; 
-		     //   json.colorAxis = colorAxis; 
-		     //   json.legend = legend; 
-		     //   json.tooltip = tooltip; 
-		     //   json.series = series;       
-
-		     //  $('#container').highcharts(json);
-
-		 });
-
-	     }
-
-	     //Highcharts.setOptions({ global: { useUTC: false } });
-	     
-	</script>
+	     </script> -->
 
 	<div id="errorDiv"></div>
 	
 	<div id="container" style="height: 300px; min-width: 310px; max-width: 1000px; margi\
 		 n: 0 auto"></div>
 
-
 	<!-- Source: http://vikjavev.no/ver/highcharts-demos/heatmap.csv.php?year=2013
 	     Date,Time,Temperature
 	-->
 	<pre id="csv" style="display: none">
-	 
-	  
 	  
 	</pre>
 
-	
 	<div id="divId"></div>
 	
 	
