@@ -40,27 +40,27 @@ var vars = {
 
 //change the actual units 
 var units = {
-    FC_mass: 'FC_mass',
-    LE: 'LE',
-    H: 'H',
-    Rn: 'Rn',
-    TAU: 'TAU',
-    Bowen_ratio: 'Bowen_ratio',
-    USTAR: 'USTAR',
-    TKE: 'TKE',
-    ZL: 'ZL',
-    MO_LENGTH: 'MO_LENGTH',
-    U: 'U',
-    V: 'V',
-    W: 'W',
-    T_SONIC: 'T_SONIC',
-    CO2: 'CO2',
-    H2O: 'H2O',
-    SW_IN: 'SW_IN',
-    SW_OUT: 'SW_OUT',
-    LW_IN: 'LW_IN',
-    LW_OUT: 'LW_OUT',
-    G_6cm: 'G_6cm'
+    FC_mass: 'mg m-2s-1',
+    LE: 'W m-2',
+    H: 'W m-2',
+    Rn: 'W m-2',
+    TAU: 'kg m-1 s-2',
+    Bowen_ratio: '',
+    USTAR: 'm s-1',
+    TKE: 'm2 s-2',
+    ZL: '',
+    MO_LENGTH: '',
+    U: 'm s-1',
+    V: 'm s-1',
+    W: 'm s-1',
+    T_SONIC: '°C',
+    CO2: 'μmolCO2 mol-1 (ppm)',
+    H2O: 'mmolCO2 mol-1',
+    SW_IN: 'W m-2',
+    SW_OUT: 'W m-2',
+    LW_IN: 'W m-2',
+    LW_OUT: 'W m-2',
+    G_6cm: 'W m-2'
 };
 
 
