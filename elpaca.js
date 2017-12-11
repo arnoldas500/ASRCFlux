@@ -408,6 +408,7 @@ Highcharts.setOptions({ global: { useUTC: false } });
 	     var div = document.createElement('div')
 	     k=0
 
+	     var unit;
 	     var sites = form.childrenByPropertyId['sitesNew2'].getValue();
 	     var vars = form.childrenByPropertyId['variables'].getValue();
 	     for (var site of sites){
@@ -422,8 +423,11 @@ Highcharts.setOptions({ global: { useUTC: false } });
 		     
 		     id = "first"+k;
 		     console.log(id);
-		     graphing(dateURL, id, site, par);
+		     unit = units[par]
+		     graphing(dateURL, id, site, par,unit);
 		     k+=1
+		     
+		     console.log("current unit is "+unit);
 		 }
 		 spin = sites.length * vars.length;
 		 /* if(spin == k){
@@ -436,7 +440,7 @@ Highcharts.setOptions({ global: { useUTC: false } });
 	 
 	 //$("html").removeClass("waiting");
 	 //function for making multiple graphs
-	 function graphing(dateURL, id, site, par){
+function graphing(dateURL, id, site, par,unit){
 
 	     
 
@@ -445,7 +449,7 @@ Highcharts.setOptions({ global: { useUTC: false } });
 		 url: dateURL,
 	     }).done(function( response ) {
 
-		 getMaxMin(dateURL, response, id, site, par)
+		 getMaxMin(dateURL, response, id, site, par, unit)
 		 
 		 
 		 //$('#csv').text(response);
@@ -464,7 +468,7 @@ Highcharts.setOptions({ global: { useUTC: false } });
 	     
 	 };
 
-	 function getMaxMin(dateURL, response, id, site, par){
+function getMaxMin(dateURL, response, id, site, par, unit){
 	     //response = document.getElementById('csv').innerHTML
 	     d3.csv(dateURL, function (data) {
 		 console.log(data)
@@ -481,13 +485,13 @@ Highcharts.setOptions({ global: { useUTC: false } });
 
 		 $('#csv').text(response);
 		 //response has json code
-		 heatMap(response, id, site, par, max, min);
+		 heatMap(response, id, site, par, max, min, unit);
 	     })
 	 }
 	 
 	 
 	 
-	 function heatMap(response, id, site, par, max, min){
+	 function heatMap(response, id, site, par, max, min, unit){
 	     //var datepicker = $('#newDateRange').data('daterangepicker');
 
 	     respNum+=1;
@@ -527,7 +531,7 @@ Highcharts.setOptions({ global: { useUTC: false } });
 		 },
 
 		 title: {
-		     text: 'Highcharts heat map for site '+site+' showing '+par+' data',
+		     text: 'Highcharts heat map for site '+site+' showing '+par+' '+ unit+' data',
 		     align: 'left',
 		     x: 40
 		 },
@@ -594,6 +598,7 @@ Highcharts.setOptions({ global: { useUTC: false } });
 		     startOnTick: true,
 		     endOnTick: true, //cahnged from false false
 		     labels: {
+			 
 			 format: '{value} '
 		     }
 		 },
@@ -610,7 +615,7 @@ Highcharts.setOptions({ global: { useUTC: false } });
 		     tooltip: {
 			 headerFormat: par+' Data<br/>',
 			 //day month, year then time in 24 hours then temp in deg C
-			 pointFormat: '{point.x:%e %b, %Y} {point.y}:00: <b>{point.value} </b>'
+			 pointFormat: '{point.x:%e %b, %Y} {point.y}:00: <b>{point.value} </b>'+unit
 		     },
 		     turboThreshold: 0//Number.MAX_VALUE // #3404, remove after 4.0.5 release
 		 }]
