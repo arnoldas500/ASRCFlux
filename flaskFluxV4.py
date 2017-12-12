@@ -1,6 +1,11 @@
+#version 4 with plotly
 # run from terminal with:                                                                            
-# export FLASK_APP=flaskFlux.py                                                                          
-# python3 -m flask run --host=0.0.0.0 -p 9093 --with-threads
+# export FLASK_APP=flaskFluxV4.py                                                                          
+# python3 -m flask run --host=0.0.0.0 -p 9097 --with-threads
+import plotly.plotly as py
+import plotly.graph_objs as go
+import plotly
+import json
 import io
 import pandas as pd
 import datetime
@@ -75,6 +80,7 @@ def testCSV(params, dates, dateStartList, dateEndList, select, par):
     dfList = []
     #getting all of the selected csv files according to date and sotring them into a list
 
+    x=0
     last = datetime.date(int(dateEndList[0]), int(dateEndList[1]), int(dateEndList[2]))
     lastPlus = last + timedelta(days=1)
     for curDate in perdelta(datetime.date(int(dateStartList[0]),int(dateStartList[1]),int(dateStartList[2])), lastPlus, timedelta(days=1)):
@@ -86,18 +92,24 @@ def testCSV(params, dates, dateStartList, dateEndList, select, par):
             #curDateInt = int(curDateSTR)
             dateSlash = curDateSTR.replace("-","/")
             dateStrp = curDateSTR.replace("/","")
-            dfList.append(pd.read_csv('/flux/' + dateSlash + '/' + dateStrp + '_FLUX_'+ select +'_Flux_NYSMesonet.csv'))
+            df74 = pd.read_csv('/flux/' + dateSlash + '/' + dateStrp + '_FLUX_'+ select +'_Flux_NYSMesonet.csv')
+            df74['x_index'] = x
+            dfList.append(df74)
             #print(dfList)
+            
             fileExists = True
             
         except FileNotFoundError as e:
             print(e)
+        x+=1
 
     if(not fileExists):
         raise FileNotFoundError("no data found at all!!!")
     
     #Combine a list of pandas dataframes to one pandas dataframe
+    
     dfFull = pd.concat(dfList)
+    
     print(dfFull.head())
     '''
     #changinge format for directries
@@ -120,6 +132,8 @@ def testCSV(params, dates, dateStartList, dateEndList, select, par):
     df2['justDate']= df2['datetime'].dt.date
     df2['justHour'] = df2['datetime'].dt.hour
     df2['justHour'] += df2['datetime'].dt.minute / 60 
+    df2['y_index'] = df2['justHour'] * 2
+    df2['x_index'] = dfFull['x_index']
     #df2['CO2']= dfFull.loc[:,'CO2']
     df2[str(par)] = dfFull.loc[:,str(par)]
 
@@ -144,10 +158,42 @@ def testCSV(params, dates, dateStartList, dateEndList, select, par):
     df2.rename(columns={'justDate': 'Date', 'justHour': 'Time', str(par):'Temperature'}, inplace=True)
     csvData = df2.to_csv(header=True, index=False) 
     #dfJson = df2.to_json()
-    
-    return csvData
 
+    # print(df2.head())
     
+    # trace = go.Heatmap(z=df2['Temperature'],
+    #                    x=df2['Date'],
+    #                    y=df2['Time'])
+    #print(df2.as_matrix)
+    # trace = go.Heatmap(z=df2.as_matrix,
+    #                    x=df2['Date'].unique(),
+    #                    y=df2['Time'].unique())
+    # data=trace
+    # print(df2)
+    z_mat = df2.pivot('Date', 'Time', 'Temperature')
+    print(z_mat.head())
+    data = go.Heatmap(z=z_mat.values.transpose().tolist(),
+                      x=z_mat.index.values.tolist(),
+                      y=z_mat.columns.tolist(),
+                      colorscale='Viridis')
+    # py.iplot(data, filename='labelled-heatmap')
+
+    #return csvData
+    #graphJSON = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
+    response = app.response_class(
+        response=json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
+
+
+# def plotly():
+#     trace = go.Heatmap(,
+#                    x=['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+#                    y=['Morning', 'Afternoon', 'Evening'])
+#     data=[trace]
+#     py.iplot(data, filename='labelled-heatmap')
 
 @app.route('/plot', methods=['GET'])
 def plot():
