@@ -1,0 +1,217 @@
+<!-- version 4 -->
+<html>
+    <head>
+      <title>Flux Data Browser - xCITE Data Lab</title>
+	<!-- jquery stuff -->
+	
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+	<script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"> 
+	 <!--    <script src = "/highcharts/highcharts.js"></script> -->
+	<script src = "https://code.highcharts.com/highcharts.js"></script>
+	<meta charset="utf-8">
+
+	<!-- jquery ui stuff (for calendar dropdown) -->
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/modules/heatmap.js"></script>
+	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+	<script src="https://code.highcharts.com/modules/data.js"></script>
+	<script src="https://code.highcharts.com/modules/boost-canvas.js"></script>
+	<script src="https://code.highcharts.com/modules/boost.js"></script>
+	<script src="https://d3js.org/d3.v4.min.js"></script>
+
+	<!-- leaflet stuff -->
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css" integrity="sha512-wcw6ts8Anuw10Mzh9Ytw4pylW8+NAD4ch3lqm9lzAsTxg0GFeJgoAtxuCLREZSC5lUXdVyo/7yfsqFjQ4S+aKw==" crossorigin="">
+	<script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js" integrity="sha512-mNqn2Wg7tSToJhvHcqfzLMU6J4mkOImSPTxVZAdo+lcPlk+GhZmYgACEe0x35K7YzW1zJ7XyJV/TT1MrdXvMcA==" crossorigin=""></script>
+
+	<!-- alpaca -->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+        <link rel="stylesheet" href="//code.cloudcms.com/alpaca/1.5.23/bootstrap/alpaca.min.css" rel="stylesheet" />
+        <script src="//code.cloudcms.com/alpaca/1.5.23/bootstrap/alpaca.min.js"></script>
+	
+	<script src="js/alpaca-extra.js"></script>
+
+	<!-- bootstrap for new dropdown -->
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css">
+
+	<!-- bootstrap for new date range -->
+	<script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+	
+	<!-- Include Date Range Picker -->
+	<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+	<link rel="stylesheet" href="css/alpaca-extra.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.js"></script>
+
+	<!-- D3.js -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+
+      <!-- Plotly.js -->
+      <script src="https://d14fo0winaifog.cloudfront.net/plotly-basic.js"></script>
+      
+	
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="js/elpaca.js"></script>
+
+	<style>
+	 body {
+	     font: normal 14px/100% "Andale Mono", AndaleMono, monospace;
+	     padding: 50px;
+	     background-color: #374954;
+	 }
+	 h2 {
+	     color: white;
+	 }
+	 h3 {
+	     color: white;
+	 }
+	 h4 {
+	     color: white;
+	 }
+	 
+	 } */
+
+	 a {
+	     color: #fff;
+	 }
+
+	 button {
+	     background-color: #6BBE92;
+	     width: 302px;
+	     border: 0;
+	     padding: 10px 0;
+	     margin: 5px 0;
+	     text-align: center;
+	     color: #fff;
+	     font-weight: bold;
+	     
+	 }
+
+	 html.waiting
+	 {
+	     cursor:wait;
+	 }
+
+	 #newDateRange {
+	     width: 220px;
+	 }
+	 
+	 /* make the map work right */
+	 .alpaca-field-leaflet-select select {
+	     margin-bottom: 5px;
+	 }
+	 .alpaca-form-leaflet-select-map {
+	     height: 400px;
+	     width: 500px;
+	     border: 1px solid gray;
+	     /* float: right; */
+	     margin-right: 4px;
+	     /* margin-top: 5px; */
+	 }
+	 .control-label.alpaca-control-label{
+	     color: red;
+	     font: normal 14px/100% "Andale Mono", AndaleMono, monospace;
+	 }
+
+	 .alpaca-field-select .btn-group {
+    display: inline-block;
+}
+
+	</style>
+    </head>
+    <body>
+	<h2>Flux data</h2><h3>xCITE Lab</h3>
+
+	<!-- div for alpaca stuff -->
+	<div id="form">
+
+	</div>
+
+
+	<script type="text/x-handlebars-template" id="moveBut">
+
+    <form role="form">
+
+        {{#formItems}}{{/formItems}}
+
+        
+
+    </form>
+
+	</script>
+
+	<script type="text/x-handlebars-template" id="moveBut2">
+
+   <div>
+    {{#if options.label}}
+    <legend>{{options.label}}</legend>
+    {{/if}}
+
+    {{#if options.helpers}}
+    {{#each options.helpers}}
+    <p class="alpaca-helper help-block {{#if options.helperClass}}{{options.helperClass}}{{/if}}">
+        <i class="alpaca-icon-16 glyphicon glyphicon-info-sign"></i>
+        {{{.}}}
+    </p>
+    {{/each}}
+    {{/if}}
+
+    <div class="container-fluid">
+	<div class="row">
+            <div class="col-md-6" id="left"></div>
+            <div class="col-md-6" id="right">
+	      <div class="alpaca-form-buttons-container">
+            {{#if options.buttons}}
+                {{#each options.buttons}}
+                    <button data-key="{{@key}}" type="{{type}}" {{#if id}}id="{{id}}"{{/if}} class="alpaca-form-button alpaca-form-button-{{@key}} {{styles}}" {{#each value}}{{@key}}="{{this}}"{{/each}} {{#each attributes}} {{@key}}="{{this}}"{{/each}}>{{{value}}}</button>
+                {{/each}}
+            {{/if}}
+</div>
+
+	    </div>
+	    
+	</div>
+    </div>
+</div>
+
+
+</script>
+	
+	<!-- <fieldset>
+	     
+	     <form id="date" action="javascript:sendDate()">
+	     
+	     </fieldset> -->
+
+	<!-- div where each heat map gets put into -->
+	<div id="parent" ></div>
+
+	<!-- <script type="text/javascript">
+	     
+	     </script> -->
+
+	<div id="errorDiv"></div>
+	
+	<div id="container" style="height: 300px; min-width: 310px; max-width: 1000px; margi\
+		 n: 0 auto"></div>
+
+	<!-- Source: http://vikjavev.no/ver/highcharts-demos/heatmap.csv.php?year=2013
+	     Date,Time,Temperature
+	-->
+	<pre id="csv" style="display: none">
+
+	  
+	</pre>
+
+	<div id="divId"></div>
+	
+	
+    </body>
+</html>
