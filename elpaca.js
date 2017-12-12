@@ -228,9 +228,14 @@ $(document).ready(function() {
 });
 
 
-Highcharts.setOptions({ global: { useUTC: false } });
-	 
-	 var base_url = 'http://appsvr.asrc.cestm.albany.edu:9093/';
+/* Highcharts.setOptions({
+ *     global : {
+ *         useUTC : false
+ *     }
+ * });*/
+
+
+var base_url = 'http://appsvr.asrc.cestm.albany.edu:9093/';
 	 var datepicker = $('#datepicker');
 	 var datepicker2 = $('#datepicker2');
 	 //for spinner
@@ -537,6 +542,10 @@ function getMaxMin(dateURL, response, id, site, par, unit){
 	     //heatmap stuff below
 	     Highcharts.chart(id, {
 
+		 global: {
+		     useUTC: false
+		 },
+		 
 		 data: {
 		     csv: document.getElementById('csv').innerHTML
 		     //csv: '/home/xcite/flux/myData.csv'
