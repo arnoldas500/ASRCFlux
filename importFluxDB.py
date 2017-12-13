@@ -1,14 +1,12 @@
+#enter date range for populate function to get nysmesonet data and populate postgres DB with all important columns
 import sqlalchemy as sql
 import pandas as pd
+import datetime
+from datetime import date, timedelta
+import io
+import os, re
 
-'''
-*********************
-start list
-['2017', '11', '01']
-end list: 
-['2017', '12', '13']
-*********************
-'''
+#need to pass sites to select
 
 def populate(dateStartList, dateEndList):
 
@@ -30,12 +28,20 @@ def populate(dateStartList, dateEndList):
     lastPlus = last + timedelta(days=1)
     for curDate in perdelta(datetime.date(int(dateStartList[0]),int(dateStartList[1]),int(dateStartList[2])), lastPlus, timedelta(days=1)):
         try:
-            
             curDateSTR = curDate.strftime('%Y/%m/%d')
-        
             dateSlash = curDateSTR.replace("-","/")
             dateStrp = curDateSTR.replace("/","")
-            df74 = pd.read_csv('/flux/' + dateSlash + '/' + dateStrp + '_FLUX_'+ select +'_Flux_NYSMesonet.csv')
+            #grab each file
+            df = pd.read_csv('/flux/' + dateSlash + '/' + dateStrp + '_FLUX_'+ select +'_Flux_NYSMesonet.csv')
+            #make all cols lowercase
+            df.columns = df.columns.str.lower()
+            #if the columns are there drop these
+            try:
+                df.drop(columns=['table', 'record_number', 'year', 'month', 'day', 'hour', 'minute', 'second', 'microsecond', 'timestamp_start', 'timestamp_end'], inplace=True)
+            except Exception as e:
+                pass
+            #fill in DB from dataframe
+            df.to_sql('nysmesonet', pg, if_exists='append',index=False)
             fileExists = True
             
         except FileNotFoundError as e:
@@ -47,13 +53,21 @@ def populate(dateStartList, dateEndList):
 
     
 
-    df = pd.read_csv('/flux/2017/12/13/20171213_FLUX_BKLN_Flux_NYSMesonet.csv')
+    #df = pd.read_csv('/flux/2017/12/13/20171213_FLUX_BKLN_Flux_NYSMesonet.csv')
 
-    df.columns = df.columns.str.lower()
+    
 
-    try:
-        df.drop(columns=['table', 'record_number', 'year', 'month', 'day', 'hour', 'minute', 'second', 'microsecond', 'timestamp_start', 'timestamp_end'], inplace=True)
-    except Exception as e:
-        pass
+'''
+how function should be called
+*********************
+start list
+['2017', '02', '02']
+end list: 
+['2017', '12', '13']
+*********************
+'''
 
-    df.to_sql('nysmesonet', pg, if_exists='append',index=False)
+start = ['2017', '02', '02']
+end = ['2017', '12', '13']
+
+populate(start,end)
