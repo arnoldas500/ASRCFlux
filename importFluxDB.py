@@ -1,10 +1,13 @@
 #enter date range for populate function to get nysmesonet data and populate postgres DB with all important columns
 import sqlalchemy as sql
+import psycopg2
 import pandas as pd
+import numpy as np
 import datetime
 from datetime import date, timedelta
 import io
 import os, re
+import glob
 
 #need to pass sites to select
 
@@ -23,6 +26,9 @@ def populate(dateStartList, dateEndList):
     dfList = []
     #getting all of the selected csv files according to date and sotring them into a list
 
+    
+    
+
     x=0
     last = datetime.date(int(dateEndList[0]), int(dateEndList[1]), int(dateEndList[2]))
     lastPlus = last + timedelta(days=1)
@@ -32,7 +38,8 @@ def populate(dateStartList, dateEndList):
             dateSlash = curDateSTR.replace("-","/")
             dateStrp = curDateSTR.replace("/","")
             #grab each file
-            df = pd.read_csv('/flux/' + dateSlash + '/' + dateStrp + '_FLUX_'+ select +'_Flux_NYSMesonet.csv')
+            for site in select:
+                df = pd.read_csv('/flux/' + dateSlash + '/' + dateStrp + '_FLUX_'+ site +'_Flux_NYSMesonet.csv')
             #make all cols lowercase
             df.columns = df.columns.str.lower()
             #if the columns are there drop these
@@ -70,4 +77,49 @@ end list:
 start = ['2017', '02', '02']
 end = ['2017', '12', '13']
 
-populate(start,end)
+#populate(start,end)
+
+def nan_to_null(f, _NULL=psycopg2.extensions.AsIs('NULL'), _NaN=np.NaN, _Float=psycopg2.extensions.Float):
+    if f is not np.isnan(f):
+        return _Float(f)
+    return _NULL
+psycopg2.extensions.register_adapter(float, nan_to_null)
+
+def easyPop():
+    #make database connection
+    pg = sql.create_engine('postgresql://:5433/flux')
+
+    #get a list of all of the files
+    files = glob.glob('/flux/*/*/*/*_Flux_NYSMesonet.csv')
+
+    #loop through all of the files and add to DB
+    for file in files:
+        df = pd.read_csv(file, na_values='NAN')
+        
+        #make all cols lowercase
+        df.columns = df.columns.str.lower()
+        
+        #df = df.where(pd.notnull(df),None)
+        #df.fillna(None, inplace=True)
+        #df.replace('NAN', 'null', inplace=True)
+        #df.replace('NAN', None)
+        #df.replace('NAN', df.replace(['NAN'], [None]))
+        #df=df.where(df=='NAN', None)
+        #df.replace({'null': None})
+        
+        df.drop(columns=['table', 'record_number', 'year', 'month', 'day', 'hour', 'minute', 'second', 'microsecond', 'timestamp_start', 'timestamp_end'], inplace=True)
+        #if the columns are there drop these
+        try:
+            df.drop(columns=['table', 'record_number', 'year', 'month', 'day', 'hour', 'minute', 'second', 'microsecond', 'timestamp_start', 'timestamp_end'], inplace=True)
+        except Exception as e:
+            pass
+        # for col in df.columns:
+        #     df[col] =
+        #df.replace('NAN',np.NaN,inplace =True)
+        df = df.where(pd.notnull(df), None)
+        #df.replace('NAN', None,inplace=True)
+        #fill in DB from dataframe
+        df.to_sql('nysmesonet', pg, if_exists='append',index=False)
+    
+
+easyPop()
