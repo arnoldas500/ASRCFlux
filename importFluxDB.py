@@ -95,10 +95,17 @@ def easyPop():
     #loop through all of the files and add to DB
     for file in files:
         df = pd.read_csv(file, na_values='NAN')
+
         
         #make all cols lowercase
         df.columns = df.columns.str.lower()
-        
+
+        for col in df.columns:
+            try:
+                if np.isinf(df[col]).any():
+                    print(df[col])
+            except Exception as e:
+                pass
         #df = df.where(pd.notnull(df),None)
         #df.fillna(None, inplace=True)
         #df.replace('NAN', 'null', inplace=True)
