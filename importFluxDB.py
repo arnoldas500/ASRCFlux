@@ -94,7 +94,8 @@ def easyPop():
 
     #loop through all of the files and add to DB
     for file in files:
-        df = pd.read_csv(file, na_values='NAN')
+        na = ('NAN', 'inf')
+        df = pd.read_csv(file, na_values=na)
 
         
         #make all cols lowercase
@@ -106,13 +107,7 @@ def easyPop():
                     print(df[col])
             except Exception as e:
                 pass
-        #df = df.where(pd.notnull(df),None)
-        #df.fillna(None, inplace=True)
-        #df.replace('NAN', 'null', inplace=True)
-        #df.replace('NAN', None)
-        #df.replace('NAN', df.replace(['NAN'], [None]))
-        #df=df.where(df=='NAN', None)
-        #df.replace({'null': None})
+        
         
         df.drop(columns=['table', 'record_number', 'year', 'month', 'day', 'hour', 'minute', 'second', 'microsecond', 'timestamp_start', 'timestamp_end'], inplace=True)
         #if the columns are there drop these
@@ -120,10 +115,9 @@ def easyPop():
             df.drop(columns=['table', 'record_number', 'year', 'month', 'day', 'hour', 'minute', 'second', 'microsecond', 'timestamp_start', 'timestamp_end'], inplace=True)
         except Exception as e:
             pass
-        # for col in df.columns:
-        #     df[col] =
-        #df.replace('NAN',np.NaN,inplace =True)
+        
         df = df.where(pd.notnull(df), None)
+        #df = df.where(~np.isinf(df), None)
         #df.replace('NAN', None,inplace=True)
         #fill in DB from dataframe
         df.to_sql('nysmesonet', pg, if_exists='append',index=False)
