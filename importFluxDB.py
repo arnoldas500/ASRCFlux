@@ -14,7 +14,7 @@ import glob
 def populate(dateStartList, dateEndList):
 
     #make database connection
-    pg = sql.create_engine('postgresql://:5433/flux')
+    pg = sql.create_engine('postgresql:///flux')
     
     #getting range of dates
     def perdelta(start, end, delta):
@@ -87,7 +87,7 @@ psycopg2.extensions.register_adapter(float, nan_to_null)
 
 def easyPop():
     #make database connection
-    pg = sql.create_engine('postgresql://:5433/flux')
+    pg = sql.create_engine('postgresql:///flux')
 
     #get a list of all of the files
     files = glob.glob('/flux/*/*/*/*_Flux_NYSMesonet.csv')
