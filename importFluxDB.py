@@ -89,6 +89,15 @@ def easyPop():
     #make database connection
     pg = sql.create_engine('postgresql:///flux')
 
+    result = pg.execute("select * from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='nysmesonet'")
+    print (result)
+
+    #should list all of the current cols in db
+    #dbCols = pg.column_descriptions
+
+    #print("*********")
+    #print(dbCols)
+    
     #get a list of all of the files
     files = glob.glob('/flux/*/*/*/*_Flux_NYSMesonet.csv')
 
@@ -97,10 +106,11 @@ def easyPop():
         na = ('NAN', 'inf')
         df = pd.read_csv(file, na_values=na)
 
-        
-        #make all cols lowercase
+                #make all cols lowercase
         df.columns = df.columns.str.lower()
-
+        
+        
+        
         for col in df.columns:
             try:
                 if np.isinf(df[col]).any():
