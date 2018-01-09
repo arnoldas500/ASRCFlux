@@ -9,6 +9,9 @@ import io
 import os, re
 import glob
 
+#make database connection
+pg = sql.create_engine('postgresql:///flux')
+
 #need to pass sites to select
 
 def populate(dateStartList, dateEndList):
@@ -85,23 +88,28 @@ def nan_to_null(f, _NULL=psycopg2.extensions.AsIs('NULL'), _NaN=np.NaN, _Float=p
     return _NULL
 psycopg2.extensions.register_adapter(float, nan_to_null)
 
-def easyPop():
-    #make database connection
-    pg = sql.create_engine('postgresql:///flux')
-
-    
+def getDBCols():
     result = pg.execute("select column_name from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='nysmesonet'")
     resultList = list(result)
-    
     #print (resultList)
 
     newL = []
     for i in resultList:
         newL.append(i[0])
 
-    print(newL)
+    # print(newL)
 
     colSet = set(newL)
+    return colSet
+
+    
+def easyPop():
+    
+
+    
+    
+    
+    
     
     #should list all of the current cols in db
     #dbCols = pg.column_descriptions
@@ -114,6 +122,7 @@ def easyPop():
 
     #loop through all of the files and add to DB
     for file in files:
+        colSet = getDBCols()
         na = ('NAN', 'inf')
         df = pd.read_csv(file, na_values=na)
 
@@ -129,15 +138,22 @@ def easyPop():
         
         fileColSet = set(df.columns)
 
-        if (colSet <= fileColSet):
+        if not ( fileColSet <= colSet ):
             shortSet = fileColSet - colSet
             for i in shortSet:
-                
+                if (isinstance(df[i][0], str)):
+                    pg.execute('alter table nysmesonet add column ' + i + ' text')
+                elif (i[-2:] == 'qc'):
+                    pg.execute('alter table nysmesonet add column ' + i + ' smallint')
+                else:
+                    pg.execute('alter table nysmesonet add column ' + i + ' numeric')
+                '''
                 try:
                     pg.execute('alter table nysmesonet add column ' + i + ' numeric')
                 except Exception as e:
                     print("the exception is" + e)
                     pg.execute('alter table nysmesonet add column ' + i + ' text')
+                '''
                 print("added column "+ i + " succesfully!")
                 
                 
