@@ -89,9 +89,20 @@ def easyPop():
     #make database connection
     pg = sql.create_engine('postgresql:///flux')
 
-    result = pg.execute("select * from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='nysmesonet'")
-    print (result)
+    
+    result = pg.execute("select column_name from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='nysmesonet'")
+    resultList = list(result)
+    
+    #print (resultList)
 
+    newL = []
+    for i in resultList:
+        newL.append(i[0])
+
+    print(newL)
+
+    colSet = set(newL)
+    
     #should list all of the current cols in db
     #dbCols = pg.column_descriptions
 
@@ -108,8 +119,28 @@ def easyPop():
 
                 #make all cols lowercase
         df.columns = df.columns.str.lower()
+
+        df.drop(columns=['table', 'record_number', 'year', 'month', 'day', 'hour', 'minute', 'second', 'microsecond', 'timestamp_start', 'timestamp_end'], inplace=True)
+        #if the columns are there drop these
+        try:
+            df.drop(columns=['table', 'record_number', 'year', 'month', 'day', 'hour', 'minute', 'second', 'microsecond', 'timestamp_start', 'timestamp_end'], inplace=True)
+        except Exception as e:
+            pass
         
-        
+        fileColSet = set(df.columns)
+
+        if (colSet <= fileColSet):
+            shortSet = fileColSet - colSet
+            for i in shortSet:
+                
+                try:
+                    pg.execute('alter table nysmesonet add column ' + i + ' numeric')
+                except Exception as e:
+                    print("the exception is" + e)
+                    pg.execute('alter table nysmesonet add column ' + i + ' text')
+                print("added column "+ i + " succesfully!")
+                
+                
         
         for col in df.columns:
             try:
@@ -119,12 +150,7 @@ def easyPop():
                 pass
         
         
-        df.drop(columns=['table', 'record_number', 'year', 'month', 'day', 'hour', 'minute', 'second', 'microsecond', 'timestamp_start', 'timestamp_end'], inplace=True)
-        #if the columns are there drop these
-        try:
-            df.drop(columns=['table', 'record_number', 'year', 'month', 'day', 'hour', 'minute', 'second', 'microsecond', 'timestamp_start', 'timestamp_end'], inplace=True)
-        except Exception as e:
-            pass
+        
         
         df = df.where(pd.notnull(df), None)
         #df = df.where(~np.isinf(df), None)
