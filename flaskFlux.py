@@ -10,7 +10,8 @@ from datetime import date, timedelta
 from flask import Flask, jsonify , request, make_response
 from flask_cors import CORS, cross_origin
 app = Flask(__name__)
-outside_sites = ['http://appsvr.asrc.cestm.albany.edu']
+#outside_sites = ['http://appsvr.asrc.cestm.albany.edu']
+outside_sites = ['http://pireds.asrc.cestm.albany.edu']
 cors = CORS(app, resources={r"/*": {'origins': outside_sites}})
 
 
