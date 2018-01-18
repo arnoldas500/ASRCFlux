@@ -193,7 +193,7 @@ $(document).ready(function() {
 		    locations: loc,
 		    marker: marker_options,
 		    selectedMarker: selected_marker_options,
-		    helper: "<a href=\"http://appsvr.asrc.cestm.albany.edu/~xcite/fluxV3/helper.html\" target=\"_blank\">Reference Page</a>"
+		    helper: "<a href=\"http://pireds.asrc.cestm.albany.edu/~xcite/fluxV3/helper.html\" target=\"_blank\">Reference Page</a>"
 		},
 
 		// sitesNew2: {
@@ -235,7 +235,7 @@ $(document).ready(function() {
  * });*/
 
 
-var base_url = 'http://appsvr.asrc.cestm.albany.edu:9093/';
+var base_url = 'http://pireds.asrc.cestm.albany.edu:9093/';
 	 var datepicker = $('#datepicker');
 	 var datepicker2 = $('#datepicker2');
 	 //for spinner
