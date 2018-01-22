@@ -3,7 +3,7 @@
 # export FLASK_APP=flaskFluxV4.py                                                                          
 # python3 -m flask run --host=0.0.0.0 -p 9097 --with-threads
 import plotly.plotly as py
-import plotly.graph_objs as go
+from plotly.graph_objs import *
 import plotly
 import json
 import io
@@ -17,6 +17,31 @@ from flask_cors import CORS, cross_origin
 app = Flask(__name__)
 outside_sites = ['http://pireds.asrc.cestm.albany.edu']
 cors = CORS(app, resources={r"/*": {'origins': outside_sites}})
+
+#change the actual units
+units = {
+    'FC_mass': 'mg m-2s-1',
+    'LE': 'W m-2',
+    'H': 'W m-2',
+    'Rn': 'W m-2',
+    'TAU': 'kg m-1 s-2',
+    'Bowen_ratio': '',
+    'USTAR': 'm s-1',
+    'TKE': 'm2 s-2',
+    'ZL': '',
+    'MO_LENGTH': '',
+    'U': 'm s-1',
+    'V': 'm s-1',
+    'W': 'm s-1',
+    'T_SONIC': '°C',
+    'CO2': 'μmolCO2 mol-1 (ppm)',
+    'H2O': 'mmolCO2 mol-1',
+    'SW_IN': 'W m-2',
+    'SW_OUT': 'W m-2',
+    'LW_IN': 'W m-2',
+    'LW_OUT': 'W m-2',
+    'G_6cm': 'W m-2'
+}
 
 
 #app = Flask(__name__)
@@ -62,11 +87,14 @@ def testCSV(params, dates, dateStartList, dateEndList, select, par):
     #timeMin = params['time_min']                                                                                                                                                    
     #timeMax = params['time_max']                                                                                                                                                    
     #date = params['dates']
-    '''
+
+    print(select)
     print("*********************")
-    print(params['dates'])
+    print(dateStartList)
+    print("end list: ")
+    print(dateEndList)
     print("*********************")
-    '''
+    
 
     fileExists = False
     
@@ -172,16 +200,23 @@ def testCSV(params, dates, dateStartList, dateEndList, select, par):
     # print(df2)
     z_mat = df2.pivot('Date', 'Time', 'Temperature')
     print(z_mat.head())
-    data = go.Heatmap(z=z_mat.values.transpose().tolist(),
+    data = Heatmap(z=z_mat.values.transpose().tolist(),
                       x=z_mat.index.values.tolist(),
                       y=z_mat.columns.tolist(),
                       colorscale='Viridis')
     # py.iplot(data, filename='labelled-heatmap')
+    layout = Layout(
+            title='Heat map for site '+select+' showing '+par +' '+units[par]+' data',
+        yaxis=YAxis(title='Hour'),
+        xaxis=XAxis(title='Date',hoverformat='%e %b'),
+        zaxis=ZAxis(title=units[par]),
+            )
 
     #return csvData
     #graphJSON = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
+    dataDic = {"data":data, "layout":layout}
     response = app.response_class(
-        response=json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder),
+        response=json.dumps(dataDic, cls=plotly.utils.PlotlyJSONEncoder),
         status=200,
         mimetype='application/json'
     )
