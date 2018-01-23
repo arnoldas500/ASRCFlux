@@ -201,15 +201,17 @@ def testCSV(params, dates, dateStartList, dateEndList, select, par):
     z_mat = df2.pivot('Date', 'Time', 'Temperature')
     print(z_mat.head())
     data = Heatmap(z=z_mat.values.transpose().tolist(),
-                      x=z_mat.index.values.tolist(),
-                      y=z_mat.columns.tolist(),
-                      colorscale='Viridis')
+                   x=z_mat.index.values.tolist(),
+                   y=z_mat.columns.tolist(),
+                   colorscale='Viridis',
+                   colorbar={'title':units[par]}
+    )
     # py.iplot(data, filename='labelled-heatmap')
     layout = Layout(
             title='Heat map for site '+select+' showing '+par +' '+units[par]+' data',
         yaxis=YAxis(title='Hour'),
         xaxis=XAxis(title='Date',hoverformat='%e %b'),
-        zaxis=ZAxis(title=units[par]),
+        #zaxis=ZAxis(title=units[par]),
             )
 
     #return csvData
